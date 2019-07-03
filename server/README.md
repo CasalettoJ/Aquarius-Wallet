@@ -1,0 +1,1 @@
+Aquarius Wallet Server
