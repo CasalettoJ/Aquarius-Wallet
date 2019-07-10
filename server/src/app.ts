@@ -22,10 +22,9 @@ import LibraClient from "./grpc_client/libra-grpc";
       const response = { error: null, response: null };
       if (ledgerResponse.response) {
         response.response = ledgerResponse.response.toObject();
+        console.log(`Request successful: ${JSON.stringify(response.response)}`);
       }
       response.error = ledgerResponse.error;
-      console.log(ledgerResponse);
-      console.log(response);
       res.send(response);
     })
   );
