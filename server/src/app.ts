@@ -7,6 +7,8 @@ import asyncHandler from "express-async-handler";
 // local
 import serverConfig from "./config";
 import LibraClient from "./grpc_client/libra-grpc";
+import { ServiceError } from "grpc";
+import { UpdateToLatestLedgerResponse } from "../libra_proto/get_with_proof_pb";
 
 (() => {
   const app = express();
@@ -19,7 +21,10 @@ import LibraClient from "./grpc_client/libra-grpc";
     serverConfig.endpoints.root,
     asyncHandler(async (req, res) => {
       const ledgerResponse = await client.GetLatestLedgerAsync([]);
-      const response = { error: null, response: null };
+      const response: {
+        error: ServiceError | null;
+        response: UpdateToLatestLedgerResponse.AsObject | null;
+      } = { error: null, response: null };
       if (ledgerResponse.response) {
         response.response = ledgerResponse.response.toObject();
         console.log(`Request successful: ${JSON.stringify(response.response)}`);
