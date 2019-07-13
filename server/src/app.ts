@@ -16,6 +16,7 @@ import { UpdateToLatestLedgerAPIResponse } from "../../common/api/Types";
   app.use(bodyParser.json());
   app.use(cors());
 
+  // TODO Handle requestitems
   app.get(
     serverConfig.endpoints.root,
     asyncHandler(async (req, res) => {

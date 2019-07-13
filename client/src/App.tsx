@@ -12,7 +12,7 @@ import Paths from "./constants/Paths";
 import Home from "./components/pages/Home";
 import WalletManagement from "./components/pages/WalletManagement";
 
-const HomePage = () => <Home apiAddr="http://localhost:3001" />;
+const HomePage = () => <Home />;
 const WalletManagementPage = () => <WalletManagement />;
 
 function App() {

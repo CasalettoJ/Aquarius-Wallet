@@ -1,39 +1,36 @@
 import * as React from "react";
 import { ServiceError } from "grpc";
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosResponse, AxiosError } from "axios";
 import { Link } from "react-router-dom";
+
+import { GetLatestLedger } from "../../api/Ledger";
 
 import Paths from "../../constants/Paths";
 import { UpdateToLatestLedgerAPIResponse } from "../../../../common/api/Types";
 
-type Props = {
-  apiAddr: string;
-};
-
-function HelloWorld(props: Props) {
+function HelloWorld() {
   const [lastResponse, setLastResponse] = React.useState<
     UpdateToLatestLedgerAPIResponse
   >(null);
-  const [lastErr, setLastErr] = React.useState<ServiceError>(null);
+  const [lastErr, setLastErr] = React.useState<
+    AxiosError<UpdateToLatestLedgerAPIResponse> | ServiceError
+  >(null);
 
-  function handleClick() {
+  async function handleClick() {
     setLastResponse(null);
     setLastErr(null);
-    axios
-      .get(props.apiAddr)
-      .then((response: AxiosResponse<UpdateToLatestLedgerAPIResponse>) => {
-        const { data } = response;
-        if (data.error) {
-          setLastErr(data.error);
-        } else {
-          setLastResponse(data);
-        }
-        console.log(response);
-      })
-      .catch(error => {
-        setLastErr(error);
-        console.log(error);
-      });
+    try {
+      const resp = await GetLatestLedger([]);
+      console.log(resp);
+      if (resp.data.error) {
+        setLastErr(resp.data.error);
+      } else {
+        setLastResponse(resp.data);
+      }
+    } catch (err) {
+      console.log(err);
+      setLastErr(err);
+    }
   }
 
   return (
