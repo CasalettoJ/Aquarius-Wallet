@@ -5,6 +5,6 @@
   "rules": {},
   "rulesDirectory": [],
   "linterOptions": {
-    "exclude": ["libra_proto/*.js"]
+    "exclude": ["./client/dist", "./server/dist/"]
   }
 }

@@ -6,9 +6,9 @@ import {
   RequestItem,
   UpdateToLatestLedgerRequest,
   UpdateToLatestLedgerResponse
-} from "../../libra_proto/get_with_proof_pb";
-import { AdmissionControlClient } from "../../libra_proto/admission_control_grpc_pb";
-import { LedgerInfoWithSignatures } from "../../libra_proto/ledger_info_pb";
+} from "../../../common/libra_proto/get_with_proof_pb";
+import { AdmissionControlClient } from "../../../common/libra_proto/admission_control_grpc_pb";
+import { LedgerInfoWithSignatures } from "../../../common/libra_proto/ledger_info_pb";
 
 export type ClientUpdateLedgerResponse = {
   response: UpdateToLatestLedgerResponse | null;

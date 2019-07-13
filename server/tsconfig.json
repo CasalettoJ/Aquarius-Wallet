@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "allowJs": true,
     "esModuleInterop": true,
     "target": "es6",
     "moduleResolution": "node",
@@ -8,5 +9,6 @@
     "outDir": "dist",
     "noImplicitAny": true
   },
-  "lib": ["es2015"]
+  "include": ["./src/**/*", "../common/**/*"],
+  "exclude": ["node_modules", "obj", "bin"]
 }

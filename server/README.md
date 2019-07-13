@@ -10,6 +10,7 @@ Todos:
 
 Requires `grpc-tools` globally installed : `npm install -g grpc-tools`.
 
-1. `./scripts/build_protos.sh`
-2. `npm run start`
-3. in another terminal: `curl localhost:3001` to test the update ledger endpoint.
+1. `../scripts/build_protos.sh`
+2. `./scripts/build_server.sh`
+3. `node ./dist/server/src/app.js`
+4. in another terminal: `curl localhost:3001` to test the update ledger endpoint.
