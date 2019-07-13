@@ -60,6 +60,12 @@ const webpackConfig = {
     })
   ],
 
+  devServer: {
+    contentBase: paths.build,
+    publicPath: "/",
+    historyApiFallback: true
+  },
+
   resolve: {
     extensions: [".js", ".ts", ".tsx"]
   }

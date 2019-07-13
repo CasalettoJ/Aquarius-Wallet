@@ -4,7 +4,8 @@
   "description": "Test wallet for Libra testnet",
   "main": "client/dist/index.html",
   "scripts": {
-    "build-client": "webpack  --mode development --config ./client/webpack.config.js"
+    "build-client": "webpack  --mode development --config ./client/webpack.config.js",
+    "run-client": "webpack-dev-server --config ./client/webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "protobufjs": "^6.8.8",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1",
     "style-loader": "^0.23.1"
   },
   "devDependencies": {
@@ -42,6 +44,7 @@
     "@types/google-protobuf": "^3.7.1",
     "@types/react": "^16.8.23",
     "@types/react-dom": "^16.8.4",
+    "@types/react-router-dom": "^4.3.4",
     "babel-loader": "^8.0.6",
     "core-js": "^3.1.4",
     "grpc_tools_node_protoc_ts": "^2.5.4",
@@ -51,6 +54,7 @@
     "tslint": "^5.18.0",
     "typescript": "^3.5.3",
     "webpack": "^4.35.3",
-    "webpack-cli": "^3.3.5"
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
   }
 }

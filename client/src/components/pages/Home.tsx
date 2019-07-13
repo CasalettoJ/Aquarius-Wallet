@@ -1,8 +1,10 @@
 import * as React from "react";
 import { ServiceError } from "grpc";
 import axios, { AxiosResponse } from "axios";
+import { Link } from "react-router-dom";
 
-import { UpdateToLatestLedgerAPIResponse } from "../../../common/api/Types";
+import Paths from "../../constants/Paths";
+import { UpdateToLatestLedgerAPIResponse } from "../../../../common/api/Types";
 
 type Props = {
   apiAddr: string;
@@ -38,9 +40,7 @@ function HelloWorld(props: Props) {
     <React.Fragment>
       <button
         style={{
-          position: "relative",
-          left: "50px",
-          top: "20px",
+          margin: "25px",
           width: "200px",
           height: "100px"
         }}
@@ -50,6 +50,14 @@ function HelloWorld(props: Props) {
         Update to Latest Ledger
       </button>
       <br />
+      <Link
+        style={{
+          margin: "25px"
+        }}
+        to={Paths.walletManagement}
+      >
+        Go to Wallet Management
+      </Link>
       <br />
       <br />
       {lastErr && <div> ERROR: {JSON.stringify(lastErr)}</div>}
