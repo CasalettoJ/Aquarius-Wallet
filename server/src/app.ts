@@ -3,11 +3,13 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import asyncHandler from "express-async-handler";
+import randomBytes from "randombytes";
 
 // local
-import serverConfig from "./config";
-import LibraClient from "./grpc_client/libra-grpc";
+import serverConfig from "./ServerConfig";
+import LibraClient from "./grpc_client/LibragRPC";
 import { UpdateToLatestLedgerAPIResponse } from "../../common/api/Types";
+import Mnemonic from "./wallet/Mnemonic";
 
 (() => {
   const app = express();
@@ -23,7 +25,8 @@ import { UpdateToLatestLedgerAPIResponse } from "../../common/api/Types";
       const ledgerResponse = await client.GetLatestLedgerAsync([]);
       const response: UpdateToLatestLedgerAPIResponse = {
         error: null,
-        response: null
+        response: null,
+        networkError: false
       };
       if (ledgerResponse.response) {
         response.response = ledgerResponse.response.toObject();
@@ -31,6 +34,16 @@ import { UpdateToLatestLedgerAPIResponse } from "../../common/api/Types";
       }
       response.error = ledgerResponse.error;
       res.send(response);
+    })
+  );
+
+  app.get(
+    "/test",
+    asyncHandler(async (req, res) => {
+      const random = randomBytes(32);
+      const mnemonic = Mnemonic.fromBytes(new Uint8Array(random));
+
+      res.send();
     })
   );
 

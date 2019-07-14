@@ -10,5 +10,5 @@
     "noImplicitAny": true
   },
   "include": ["./src/**/*", "../common/**/*"],
-  "exclude": ["node_modules", "obj", "bin", "dist"]
+  "exclude": ["node_modules", "obj", "bin", "dist", "**/*.spec.ts"]
 }
