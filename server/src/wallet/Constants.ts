@@ -1,4 +1,5 @@
 export default {
+  defaultSalt: "AQUARIUS WALLET",
   mnemonicSaltPrefix: "AQUARIUS WALLET: mnemonic salt prefix$",
   masterKeySalt: "AQUARIUS WALLET: master key salt$",
   infoPrefix: "AQUARIUS WALLET: derived key$",

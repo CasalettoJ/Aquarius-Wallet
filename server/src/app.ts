@@ -41,13 +41,7 @@ import KeyFactory, { Seed } from "./wallet/KeyFactory";
   app.get(
     "/test",
     asyncHandler(async (req, res) => {
-      const random = randomBytes(32);
-      const mnemonic = Mnemonic.fromBytes(new Uint8Array(random));
-      const seed = new Seed(mnemonic, "TEST", () => {
-        const keyFactory = new KeyFactory(seed);
-        keyFactory.derivePrivateChild(BigInt(0));
-        res.send();
-      });
+      res.send();
     })
   );
 

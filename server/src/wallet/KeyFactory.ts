@@ -1,17 +1,35 @@
 import crypto from "crypto";
 const hkdf = require("futoin-hkdf");
 import { eddsa } from "elliptic";
+import BigNumber from "bignumber.js";
 
 import Mnemonic from "./Mnemonic";
 import WalletConstants from "./Constants";
+import { Keccak } from "sha3";
 
 export class ExtendedPrivateKey {
-  readonly depth: bigint;
+  readonly depth: BigNumber;
   readonly keyPair: eddsa.KeyPair;
 
-  constructor(depth: bigint, kp: eddsa.KeyPair) {
+  /// Constructor for creating an ExtendedPrivKey from a ed25519 KeyPair.
+  constructor(depth: BigNumber, kp: eddsa.KeyPair) {
     this.depth = depth;
     this.keyPair = kp;
+  }
+
+  /// Computes the sha3 hash of the PublicKey and attempts to construct a Libra AccountAddress
+  /// from the raw bytes of the pubkey hash
+  getAddress(): Buffer {
+    const pubKey = this.keyPair.getPublic();
+    const keccak = new Keccak(256);
+    keccak.update(pubKey);
+    const hash = keccak.digest();
+    return hash;
+  }
+
+  // TODO: libra_wallet uses expanded secret keys from https://github.com/dalek-cryptography/ed25519-dalek/blob/master/src/secret.rs:255, necessary? idk, look into.
+  sign(hash: Buffer): eddsa.Signature {
+    return this.keyPair.sign(hash);
   }
 }
 
@@ -64,13 +82,13 @@ export default class {
   }
 
   /// Derive a particular PrivateKey at a certain depth
-  derivePrivateChild(depth: bigint): ExtendedPrivateKey {
+  derivePrivateChild(depth: BigNumber): ExtendedPrivateKey {
     // application info in the HKDF context is defined as WalletConstants.infoPrefix+depth.
     // console.log(
     //   `Creating private key with master material at depth ${depth}...`
     // );
     const buf = Buffer.alloc(8);
-    buf.writeBigUInt64LE(depth);
+    buf.writeBigUInt64LE(BigInt(depth.toString()));
     const infoPrefixBuffer = Buffer.from(WalletConstants.infoPrefix);
     const depthBuffer = Buffer.from(buf);
     const applicationInfo = Buffer.concat([infoPrefixBuffer, depthBuffer]);
