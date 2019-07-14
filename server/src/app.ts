@@ -10,6 +10,7 @@ import serverConfig from "./ServerConfig";
 import LibraClient from "./grpc_client/LibragRPC";
 import { UpdateToLatestLedgerAPIResponse } from "../../common/api/Types";
 import Mnemonic from "./wallet/Mnemonic";
+import KeyFactory, { Seed } from "./wallet/KeyFactory";
 
 (() => {
   const app = express();
@@ -30,7 +31,7 @@ import Mnemonic from "./wallet/Mnemonic";
       };
       if (ledgerResponse.response) {
         response.response = ledgerResponse.response.toObject();
-        console.log(`Request successful: ${JSON.stringify(response.response)}`);
+        // console.log(`Request successful: ${JSON.stringify(response.response)}`);
       }
       response.error = ledgerResponse.error;
       res.send(response);
@@ -42,8 +43,11 @@ import Mnemonic from "./wallet/Mnemonic";
     asyncHandler(async (req, res) => {
       const random = randomBytes(32);
       const mnemonic = Mnemonic.fromBytes(new Uint8Array(random));
-
-      res.send();
+      const seed = new Seed(mnemonic, "TEST", () => {
+        const keyFactory = new KeyFactory(seed);
+        keyFactory.derivePrivateChild(BigInt(0));
+        res.send();
+      });
     })
   );
 

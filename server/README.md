@@ -19,3 +19,4 @@ Requires `grpc-tools` globally installed : `npm install -g grpc-tools`.
 
 Sources:
 https://github.com/libra/libra/tree/master/client/libra_wallet -> Based on libra_wallet implementation.
+https://github.com/perfectmak/libra-core -> Good examples on how to handle crupto w/ typescript
