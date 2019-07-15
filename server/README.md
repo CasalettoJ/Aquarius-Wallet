@@ -9,6 +9,7 @@ Todos:
 - minting endpoints + faucet connection
 - validator validations
 - unit tests
+- make sure that any key buffers are deliberately nulled out if they go out of scope (does this happen automatically in js? ... What's the lifecycle of a buffer?) (https://github.com/dalek-cryptography/ed25519-dalek/blob/master/src/secret.rs#L264)
 
 Requires `grpc-tools` globally installed : `npm install -g grpc-tools`.
 
@@ -18,5 +19,6 @@ Requires `grpc-tools` globally installed : `npm install -g grpc-tools`.
 4. in another terminal: `curl localhost:3001` to test the update ledger endpoint and `curl localhost:3001/test` to test whatever I've got in there atm until I put unit tests in here.
 
 Sources:
+
 https://github.com/libra/libra/tree/master/client/libra_wallet -> Based on libra_wallet implementation.
-https://github.com/perfectmak/libra-core -> Good examples on how to handle crupto w/ typescript
+https://github.com/perfectmak/libra-core -> Good examples on how to handle crypto w/ typescript
