@@ -90,8 +90,7 @@ export default class {
     const buf = Buffer.alloc(8);
     buf.writeBigUInt64LE(BigInt(depth.toString()));
     const infoPrefixBuffer = Buffer.from(WalletConstants.infoPrefix);
-    const depthBuffer = Buffer.from(buf);
-    const applicationInfo = Buffer.concat([infoPrefixBuffer, depthBuffer]);
+    const applicationInfo = Buffer.concat([infoPrefixBuffer, buf]);
     // console.log(`Application Info: ${applicationInfo.toString("hex")}`);
     const hkdfExpand = hkdf.expand(
       "sha3-256",
