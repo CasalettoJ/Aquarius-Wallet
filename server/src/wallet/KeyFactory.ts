@@ -5,7 +5,7 @@ import BigNumber from "bignumber.js";
 
 import Mnemonic from "./Mnemonic";
 import WalletConstants from "./Constants";
-import { Keccak } from "sha3";
+import { AccountAddress } from "./Account";
 
 export class ExtendedPrivateKey {
   readonly depth: BigNumber;
@@ -19,12 +19,8 @@ export class ExtendedPrivateKey {
 
   /// Computes the sha3 hash of the PublicKey and attempts to construct a Libra AccountAddress
   /// from the raw bytes of the pubkey hash
-  getAddress(): Buffer {
-    const pubKey = this.keyPair.getPublic();
-    const keccak = new Keccak(256);
-    keccak.update(pubKey);
-    const hash = keccak.digest();
-    return hash;
+  getAddress(): AccountAddress {
+    return AccountAddress.fromPublicKey(this.keyPair.getPublic());
   }
 
   // TODO: libra_wallet uses expanded secret keys from https://github.com/dalek-cryptography/ed25519-dalek/blob/master/src/secret.rs:255, necessary? idk, look into.
@@ -69,7 +65,7 @@ export default class {
   readonly masterMaterial: Buffer;
   constructor(seed: Seed) {
     this.seed = seed;
-    // console.log(`Keyfactory Seed: ${JSON.stringify(seed)}`);
+    console.log(`Keyfactory Seed: ${JSON.stringify(seed)}`);
     this.masterMaterial = hkdf.extract(
       "sha3-256",
       32,
@@ -84,9 +80,9 @@ export default class {
   /// Derive a particular PrivateKey at a certain depth
   derivePrivateChild(depth: BigNumber): ExtendedPrivateKey {
     // application info in the HKDF context is defined as WalletConstants.infoPrefix+depth.
-    // console.log(
-    //   `Creating private key with master material at depth ${depth}...`
-    // );
+    console.log(
+      `Creating private key with master material at depth ${depth}...`
+    );
     const buf = Buffer.alloc(8);
     buf.writeBigUInt64LE(BigInt(depth.toString()));
     const infoPrefixBuffer = Buffer.from(WalletConstants.infoPrefix);
@@ -101,10 +97,10 @@ export default class {
     );
     const keyPair = new eddsa("ed25519").keyFromSecret(Buffer.from(hkdfExpand));
     const epk = new ExtendedPrivateKey(depth, keyPair);
-    // console.log(`Private Key: ${keyPair.getSecret().toString("hex")}`);
-    // console.log(
-    //   `Public Key: ${Buffer.from(keyPair.getPublic()).toString("hex")}`
-    // );
+    console.log(`Private Key: ${keyPair.getSecret().toString("hex")}`);
+    console.log(
+      `Public Key: ${Buffer.from(keyPair.getPublic()).toString("hex")}`
+    );
     return epk;
   }
 }

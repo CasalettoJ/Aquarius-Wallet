@@ -11,6 +11,7 @@ import LibraClient from "./grpc_client/LibragRPC";
 import { UpdateToLatestLedgerAPIResponse } from "../../common/api/Types";
 import Mnemonic from "./wallet/Mnemonic";
 import KeyFactory, { Seed } from "./wallet/KeyFactory";
+import BigNumber from "bignumber.js";
 
 (() => {
   const app = express();
@@ -41,7 +42,13 @@ import KeyFactory, { Seed } from "./wallet/KeyFactory";
   app.get(
     "/test",
     asyncHandler(async (req, res) => {
-      res.send();
+      const random = randomBytes(32);
+      const mnemonic = Mnemonic.fromBytes(new Uint8Array(random));
+      const seed = new Seed(mnemonic, "TEST", () => {
+        const keyFactory = new KeyFactory(seed);
+        keyFactory.derivePrivateChild(new BigNumber(0));
+        res.send();
+      });
     })
   );
 

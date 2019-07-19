@@ -101,24 +101,24 @@ export namespace VMVerificationStatus {
 
 }
 
-export class AssertionFailure extends jspb.Message { 
-    getAssertionErrorCode(): string;
-    setAssertionErrorCode(value: string): void;
+export class Aborted extends jspb.Message { 
+    getAbortedErrorCode(): string;
+    setAbortedErrorCode(value: string): void;
 
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): AssertionFailure.AsObject;
-    static toObject(includeInstance: boolean, msg: AssertionFailure): AssertionFailure.AsObject;
+    toObject(includeInstance?: boolean): Aborted.AsObject;
+    static toObject(includeInstance: boolean, msg: Aborted): Aborted.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: AssertionFailure, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): AssertionFailure;
-    static deserializeBinaryFromReader(message: AssertionFailure, reader: jspb.BinaryReader): AssertionFailure;
+    static serializeBinaryToWriter(message: Aborted, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): Aborted;
+    static deserializeBinaryFromReader(message: Aborted, reader: jspb.BinaryReader): Aborted;
 }
 
-export namespace AssertionFailure {
+export namespace Aborted {
     export type AsObject = {
-        assertionErrorCode: string,
+        abortedErrorCode: string,
     }
 }
 
@@ -189,10 +189,10 @@ export class ExecutionStatus extends jspb.Message {
     setRuntimeStatus(value: RuntimeStatus): void;
 
 
-    hasAssertionFailure(): boolean;
-    clearAssertionFailure(): void;
-    getAssertionFailure(): AssertionFailure | undefined;
-    setAssertionFailure(value?: AssertionFailure): void;
+    hasAborted(): boolean;
+    clearAborted(): void;
+    getAborted(): Aborted | undefined;
+    setAborted(value?: Aborted): void;
 
 
     hasArithmeticError(): boolean;
@@ -222,7 +222,7 @@ export class ExecutionStatus extends jspb.Message {
 export namespace ExecutionStatus {
     export type AsObject = {
         runtimeStatus: RuntimeStatus,
-        assertionFailure?: AssertionFailure.AsObject,
+        aborted?: Aborted.AsObject,
         arithmeticError?: ArithmeticError.AsObject,
         referenceError?: DynamicReferenceError.AsObject,
     }
@@ -232,7 +232,7 @@ export namespace ExecutionStatus {
     
     RUNTIME_STATUS = 1,
 
-    ASSERTION_FAILURE = 2,
+    ABORTED = 2,
 
     ARITHMETIC_ERROR = 3,
 
@@ -359,7 +359,7 @@ export enum VMVerificationErrorKind {
     POPRESOURCEERROR = 23,
     RELEASEREFTYPEMISMATCHERROR = 24,
     BRTYPEMISMATCHERROR = 25,
-    ASSERTTYPEMISMATCHERROR = 26,
+    ABORTTYPEMISMATCHERROR = 26,
     STLOCTYPEMISMATCHERROR = 27,
     STLOCUNSAFETODESTROYERROR = 28,
     RETUNSAFETODESTROYERROR = 29,
@@ -413,6 +413,7 @@ export enum VMInvariantViolationError {
     LINKERERROR = 6,
     LOCALREFERENCEERROR = 7,
     STORAGEERROR = 8,
+    INTERNALTYPEERROR = 9,
 }
 
 export enum BinaryError {

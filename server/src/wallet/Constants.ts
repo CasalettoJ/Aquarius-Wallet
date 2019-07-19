@@ -7,3 +7,15 @@ export default {
   seedLen: 32,
   privateKeyLen: 32
 };
+
+// https://github.com/libra/libra/blob/master/types/src/account_config.rs
+export const AccountConstants = {
+  addressLength: 32,
+  shortStringLength: 4,
+  libraNetworkIDShort: "lb"
+  // coinmoduleName: "LibraCoin",
+  // coinStructName: "T",
+  // accountModuleName: "LibraAccount",
+  // accountStructName: "T",
+  // hashModuleName: "Hash"
+};

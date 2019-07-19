@@ -1,23 +1,41 @@
 import randomBytes from "randombytes";
 
+import {
+  RawTransaction,
+  SignedTransaction
+} from "../../../common/libra_proto/transaction_pb";
+
 import KeyFactory, { Seed } from "./KeyFactory";
 import Mnemonic from "./Mnemonic";
 import BigNumber from "bignumber.js";
+import { AccountAddress } from "./Account";
 
-// Differs from https://github.com/libra/libra/blob/master/client/libra_wallet/src/wallet_library.rs in that it won't store mnemonic.  That is the user's responsibility to store and supply only as needed until I implement an encrypted storage for it (backend user accounts?)
+export type DerivedPublicAddress = {
+  address: AccountAddress;
+  depth: BigNumber;
+};
+
+// TODO: Store mnemonic phrase in an encrypted way.
 class AquariusWalletWrapper {
-  private _keyFactory: KeyFactory;
+  private readonly _mnemonic: Mnemonic;
+  private readonly _keyFactory: KeyFactory;
   private _addressMap: Map<Buffer, BigNumber>;
   private _keyLeaf: BigNumber;
 
-  constructor(kf: KeyFactory) {
+  constructor(kf: KeyFactory, m: Mnemonic) {
     this._keyFactory = kf;
     this._keyLeaf = new BigNumber(0);
     this._addressMap = new Map<Buffer, BigNumber>();
+    this._mnemonic = m;
   }
 
   get keyLeaf(): BigNumber {
     return this._keyLeaf;
+  }
+
+  // TODO: https://github.com/libra/libra/blob/master/client/libra_wallet/src/wallet_library.rs#L140 has error checking for this.
+  get addressMap(): Map<Buffer, BigNumber> {
+    return this._addressMap;
   }
 
   static async generateNew(salt: string = ""): Promise<AquariusWalletWrapper> {
@@ -33,7 +51,7 @@ class AquariusWalletWrapper {
           reject(err);
         } else {
           const keyFactory = new KeyFactory(seed);
-          const newWallet = new AquariusWalletWrapper(keyFactory);
+          const newWallet = new AquariusWalletWrapper(keyFactory, mnemonic);
           resolve(newWallet);
         }
       });
@@ -41,11 +59,39 @@ class AquariusWalletWrapper {
     return promise;
   }
 
-  generateNewAddress(): { address: Buffer; depth: BigNumber } {
+  generateAddresses(depth: BigNumber): Array<DerivedPublicAddress> {
+    if (this.keyLeaf.isGreaterThan(depth)) {
+      // TODO: Error handling
+      return;
+    }
+
+    const newAddresses: Array<DerivedPublicAddress> = new Array<
+      DerivedPublicAddress
+    >();
+    while (!this.keyLeaf.isEqualTo(depth)) {
+      newAddresses.push(this.generateNewAddress());
+    }
+    return newAddresses;
+  }
+
+  generateAddressAtDepth(depth: BigNumber): AccountAddress {
+    return this._keyFactory.derivePrivateChild(depth).getAddress();
+  }
+
+  generateNewAddress(): DerivedPublicAddress {
     const epk = this._keyFactory.derivePrivateChild(this.keyLeaf);
     this._keyLeaf.plus(1);
     return { address: epk.getAddress(), depth: epk.depth };
   }
+
+  /// Simple public function that allows to sign a Libra RawTransaction with the PrivateKey
+  /// associated to a particular AccountAddress. If the PrivateKey associated to an
+  /// AccountAddress is not contained in the addr_map, then this function will throw an Error
+  // signTxn(txn: RawTransaction): SignedTransaction {
+  //   const senderAccount = txn.getSenderAccount_asU8();
+  //   if (this.addressMap.has(senderAccount.buffer)) {
+  //   }
+  // }
 }
 
 export default AquariusWalletWrapper;
