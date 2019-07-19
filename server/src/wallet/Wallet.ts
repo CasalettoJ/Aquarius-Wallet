@@ -3,7 +3,7 @@ import randomBytes from "randombytes";
 import {
   RawTransaction,
   SignedTransaction
-} from "../../../common/libra_proto/transaction_pb";
+} from "../../../common/libra_protos/transaction_pb";
 
 import KeyFactory, { Seed } from "./KeyFactory";
 import Mnemonic from "./Mnemonic";
