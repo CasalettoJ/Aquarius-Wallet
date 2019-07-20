@@ -13,7 +13,7 @@ import Mnemonic from "./wallet/Mnemonic";
 import KeyFactory, { Seed } from "./wallet/KeyFactory";
 import BigNumber from "bignumber.js";
 import { AccountAddress } from "./wallet/Account";
-import { Keccak } from "sha3";
+import { SHA3 } from "sha3";
 import stringToHex from "../../common/utils/stringToHex";
 
 (() => {
@@ -51,7 +51,7 @@ import stringToHex from "../../common/utils/stringToHex";
         const keyFactory = new KeyFactory(seed);
         const child = keyFactory.derivePrivateChild(new BigNumber(0));
         const address = child.keyPair.getPublic();
-        const keccak = new Keccak(256);
+        const keccak = new SHA3(256);
         keccak.update(Buffer.from(address));
         const hash = keccak.digest();
         console.log(hash.toString("hex"));
@@ -66,7 +66,6 @@ import stringToHex from "../../common/utils/stringToHex";
     "/testwords",
     asyncHandler(async (req, res) => {
       const random = randomBytes(32);
-
       const mnemonic = Mnemonic.fromWords(
         "gym roast napkin pact then feel drill joy army crisp unlock oyster ramp receive typical spirit stick daughter enough stumble soul heavy minute screen"
       );
@@ -77,12 +76,14 @@ import stringToHex from "../../common/utils/stringToHex";
       );
       const seed = new Seed(mnemonic, "LIBRA", () => {
         const keyFactory = new KeyFactory(seed);
+        console.log("Creating Libra Address...");
         const child = keyFactory.derivePrivateChild(new BigNumber(0));
         const address = child.keyPair.getPublic();
-        const keccak = new Keccak(256);
+        const keccak = new SHA3(256);
+        console.log(`Hashing: ${Buffer.from(address).toString("hex")}`);
         keccak.update(Buffer.from(address));
         const hash = keccak.digest();
-        console.log(hash.toString("hex"));
+        console.log(`Address Hash: ${hash.toString("hex")}`);
         res.send();
       });
     })

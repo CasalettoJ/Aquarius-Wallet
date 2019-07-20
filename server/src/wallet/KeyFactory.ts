@@ -85,6 +85,9 @@ export default class {
       0,
       32
     );
+    console.log(
+      `Master Material: ${Buffer.from(this.masterMaterial).toString("hex")}`
+    );
   }
 
   /// Derive a particular PrivateKey at a certain depth
@@ -95,8 +98,11 @@ export default class {
     );
     const buf = Buffer.alloc(8);
     buf.writeBigUInt64LE(BigInt(depth.toString()));
-    const infoPrefixBuffer = Buffer.from(WalletConstants.infoPrefix);
-    const applicationInfo = Buffer.concat([infoPrefixBuffer, buf]);
+    const applicationInfo = Buffer.concat([
+      Buffer.from(WalletConstants.infoPrefix),
+      buf
+    ]);
+    console.log(`Info: ${Buffer.from(applicationInfo).toString("hex")}`);
     const hkdfExpand = hkdf.expand(
       "sha3-256",
       hkdf.hash_length("sha3-256"),
@@ -104,6 +110,7 @@ export default class {
       WalletConstants.privateKeyLen,
       applicationInfo
     );
+    console.log(`hkdf Expand: ${Buffer.from(hkdfExpand).toString("hex")}`);
     const keyPair = new eddsa("ed25519").keyFromSecret(Buffer.from(hkdfExpand));
     const epk = new ExtendedPrivateKey(depth, keyPair);
     console.log(`Private Key: ${keyPair.getSecret().toString("hex")}`);
