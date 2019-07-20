@@ -12,6 +12,9 @@ import { UpdateToLatestLedgerAPIResponse } from "../../common/api/Types";
 import Mnemonic from "./wallet/Mnemonic";
 import KeyFactory, { Seed } from "./wallet/KeyFactory";
 import BigNumber from "bignumber.js";
+import { AccountAddress } from "./wallet/Account";
+import { Keccak } from "sha3";
+import stringToHex from "../../common/utils/stringToHex";
 
 (() => {
   const app = express();
@@ -44,9 +47,42 @@ import BigNumber from "bignumber.js";
     asyncHandler(async (req, res) => {
       const random = randomBytes(32);
       const mnemonic = Mnemonic.fromBytes(new Uint8Array(random));
-      const seed = new Seed(mnemonic, "TEST", () => {
+      const seed = new Seed(mnemonic, "LIBRA", () => {
         const keyFactory = new KeyFactory(seed);
-        keyFactory.derivePrivateChild(new BigNumber(0));
+        const child = keyFactory.derivePrivateChild(new BigNumber(0));
+        const address = child.keyPair.getPublic();
+        const keccak = new Keccak(256);
+        keccak.update(Buffer.from(address));
+        const hash = keccak.digest();
+        console.log(hash.toString("hex"));
+        // const newAddress = new AccountAddress(new Uint8Array(hash));
+        // console.log(newAddress.hexStrAddress);
+        res.send();
+      });
+    })
+  );
+
+  app.get(
+    "/testwords",
+    asyncHandler(async (req, res) => {
+      const random = randomBytes(32);
+
+      const mnemonic = Mnemonic.fromWords(
+        "gym roast napkin pact then feel drill joy army crisp unlock oyster ramp receive typical spirit stick daughter enough stumble soul heavy minute screen"
+      );
+      console.log(
+        `Mnemonic: ${mnemonic.toString()}\nMnemonic As Bytes: ${stringToHex(
+          mnemonic.toString()
+        )}`
+      );
+      const seed = new Seed(mnemonic, "LIBRA", () => {
+        const keyFactory = new KeyFactory(seed);
+        const child = keyFactory.derivePrivateChild(new BigNumber(0));
+        const address = child.keyPair.getPublic();
+        const keccak = new Keccak(256);
+        keccak.update(Buffer.from(address));
+        const hash = keccak.digest();
+        console.log(hash.toString("hex"));
         res.send();
       });
     })

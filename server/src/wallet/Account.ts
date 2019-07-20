@@ -34,9 +34,10 @@ export class AccountAddress {
   // https://github.com/libra/libra/blob/master/types/src/account_address.rs#L59 Important TODO notes from libra team on hashing of addresses from public keys.
   static fromPublicKey(pk: Buffer): AccountAddress {
     const keccak = new Keccak(256);
+    console.log(pk);
     keccak.update(pk);
     const hash = keccak.digest();
-    const newAddress = new AccountAddress(hash);
+    const newAddress = new AccountAddress(new Uint8Array(hash));
     return newAddress;
   }
 }

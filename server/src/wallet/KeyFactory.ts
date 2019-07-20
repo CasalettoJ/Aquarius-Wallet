@@ -6,6 +6,8 @@ import BigNumber from "bignumber.js";
 import Mnemonic from "./Mnemonic";
 import WalletConstants from "./Constants";
 import { AccountAddress } from "./Account";
+import toHex from "../../../common/utils/stringToHex";
+import toBytes from "../../../common/utils/stringToBytes";
 
 export class ExtendedPrivateKey {
   readonly depth: BigNumber;
@@ -20,7 +22,7 @@ export class ExtendedPrivateKey {
   /// Computes the sha3 hash of the PublicKey and attempts to construct a Libra AccountAddress
   /// from the raw bytes of the pubkey hash
   getAddress(): AccountAddress {
-    return AccountAddress.fromPublicKey(this.keyPair.getPublic());
+    return AccountAddress.fromPublicKey(Buffer.from(this.keyPair.getPublic()));
   }
 
   // TODO: libra_wallet uses expanded secret keys from https://github.com/dalek-cryptography/ed25519-dalek/blob/master/src/secret.rs:255, necessary? idk, look into.
@@ -40,9 +42,16 @@ export class Seed {
     salt: string,
     cb: (err: Error, dKey: Buffer) => void
   ) {
+    console.log(
+      `Mnemonic Salt Prefix: ${toHex(WalletConstants.mnemonicSaltPrefix)}`
+    );
+    console.log(`Salt as Bytes: ${toHex(salt)}`);
+    console.log(
+      `Full Salt: ${toHex(`${WalletConstants.mnemonicSaltPrefix}${salt}`)}`
+    );
     crypto.pbkdf2(
-      mnemonic.toBytes(),
-      salt,
+      toBytes(mnemonic.toString()),
+      Buffer.from(`${WalletConstants.mnemonicSaltPrefix}${salt}`),
       WalletConstants.pbkdf2Iterations,
       WalletConstants.seedLen,
       "sha3-256",
@@ -65,16 +74,17 @@ export default class {
   readonly masterMaterial: Buffer;
   constructor(seed: Seed) {
     this.seed = seed;
-    console.log(`Keyfactory Seed: ${JSON.stringify(seed)}`);
-    this.masterMaterial = hkdf.extract(
-      "sha3-256",
-      32,
-      this.seed.seed.buffer,
-      WalletConstants.masterKeySalt
+    console.log(`Keyfactory Seed: ${Buffer.from(seed.seed).toString("hex")}`);
+    this.masterMaterial = Buffer.from(
+      hkdf.extract(
+        "sha3-256",
+        32,
+        this.seed.seed.buffer,
+        WalletConstants.masterKeySalt
+      ),
+      0,
+      32
     );
-    // console.log(
-    //   `Keyfactory Master Material (Hex): ${this.masterMaterial.toString("hex")}`
-    // );
   }
 
   /// Derive a particular PrivateKey at a certain depth
@@ -87,7 +97,6 @@ export default class {
     buf.writeBigUInt64LE(BigInt(depth.toString()));
     const infoPrefixBuffer = Buffer.from(WalletConstants.infoPrefix);
     const applicationInfo = Buffer.concat([infoPrefixBuffer, buf]);
-    // console.log(`Application Info: ${applicationInfo.toString("hex")}`);
     const hkdfExpand = hkdf.expand(
       "sha3-256",
       hkdf.hash_length("sha3-256"),
