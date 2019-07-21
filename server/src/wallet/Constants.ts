@@ -6,7 +6,7 @@ export default {
   pbkdf2Iterations: 2048,
   seedLen: 32,
   privateKeyLen: 32,
-  delimiter: " "
+  mnemonicDelimiter: " "
 };
 
 // https://github.com/libra/libra/blob/master/types/src/account_config.rs

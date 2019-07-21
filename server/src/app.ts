@@ -3,18 +3,13 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import asyncHandler from "express-async-handler";
-import randomBytes from "randombytes";
 
 // local
 import serverConfig from "./ServerConfig";
 import LibraClient from "./grpc_client/LibragRPC";
 import { UpdateToLatestLedgerAPIResponse } from "../../common/api/Types";
 import Mnemonic from "./wallet/Mnemonic";
-import KeyFactory, { Seed } from "./wallet/KeyFactory";
-import BigNumber from "bignumber.js";
-import { AccountAddress } from "./wallet/Account";
-import { SHA3 } from "sha3";
-import stringToHex from "../../common/utils/stringToHex";
+import AquariusWalletWrapper from "./wallet/Wallet";
 
 (() => {
   const app = express();
@@ -43,49 +38,28 @@ import stringToHex from "../../common/utils/stringToHex";
   );
 
   app.get(
-    "/test",
+    serverConfig.endpoints.test,
     asyncHandler(async (req, res) => {
-      const random = randomBytes(32);
-      const mnemonic = Mnemonic.fromBytes(new Uint8Array(random));
-      const seed = new Seed(mnemonic, "LIBRA", () => {
-        const keyFactory = new KeyFactory(seed);
-        const child = keyFactory.derivePrivateChild(new BigNumber(0));
-        const address = child.keyPair.getPublic();
-        const keccak = new SHA3(256);
-        keccak.update(Buffer.from(address));
-        const hash = keccak.digest();
-        console.log(hash.toString("hex"));
-        // const newAddress = new AccountAddress(new Uint8Array(hash));
-        // console.log(newAddress.hexStrAddress);
-        res.send();
-      });
+      const wallet = await AquariusWalletWrapper.generateNew("LIBRA");
+      const newAddr = wallet.generateNewAddress();
+      console.log(`Address Created: ${newAddr.address.hexStrAddress}`);
+      res.send(wallet);
     })
   );
 
   app.get(
-    "/testwords",
+    serverConfig.endpoints.testWords,
     asyncHandler(async (req, res) => {
-      const random = randomBytes(32);
       const mnemonic = Mnemonic.fromWords(
         "gym roast napkin pact then feel drill joy army crisp unlock oyster ramp receive typical spirit stick daughter enough stumble soul heavy minute screen"
       );
-      console.log(
-        `Mnemonic: ${mnemonic.toString()}\nMnemonic As Bytes: ${stringToHex(
-          mnemonic.toString()
-        )}`
+      const wallet = await AquariusWalletWrapper.generateFromMnemonic(
+        mnemonic,
+        "LIBRA"
       );
-      const seed = new Seed(mnemonic, "LIBRA", () => {
-        const keyFactory = new KeyFactory(seed);
-        console.log("Creating Libra Address...");
-        const child = keyFactory.derivePrivateChild(new BigNumber(0));
-        const address = child.keyPair.getPublic();
-        const keccak = new SHA3(256);
-        console.log(`Hashing: ${Buffer.from(address).toString("hex")}`);
-        keccak.update(Buffer.from(address));
-        const hash = keccak.digest();
-        console.log(`Address Hash: ${hash.toString("hex")}`);
-        res.send();
-      });
+      const newAddr = wallet.generateNewAddress();
+      console.log(`Address Created: ${newAddr.address.hexStrAddress}`);
+      res.send(wallet);
     })
   );
 

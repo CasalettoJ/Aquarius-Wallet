@@ -75,13 +75,13 @@ class AquariusWalletWrapper {
   }
 
   generateAddressAtDepth(depth: BigNumber): AccountAddress {
-    return this._keyFactory.derivePrivateChild(depth).getAddress();
+    return this._keyFactory.derivePrivateChild(depth).address;
   }
 
   generateNewAddress(): DerivedPublicAddress {
     const epk = this._keyFactory.derivePrivateChild(this.keyLeaf);
     this._keyLeaf.plus(1);
-    return { address: epk.getAddress(), depth: epk.depth };
+    return { address: epk.address, depth: epk.depth };
   }
 
   /// Simple public function that allows to sign a Libra RawTransaction with the PrivateKey

@@ -6,28 +6,43 @@ import BigNumber from "bignumber.js";
 import Mnemonic from "./Mnemonic";
 import WalletConstants from "./Constants";
 import { AccountAddress } from "./Account";
-import toHex from "../../../common/utils/stringToHex";
 import toBytes from "../../../common/utils/stringToBytes";
 
 export class ExtendedPrivateKey {
-  readonly depth: BigNumber;
-  readonly keyPair: eddsa.KeyPair;
+  private readonly _depth: BigNumber;
+  private readonly _keyPair: eddsa.KeyPair;
+  private readonly _address: AccountAddress;
 
-  /// Constructor for creating an ExtendedPrivKey from a ed25519 KeyPair.
-  constructor(depth: BigNumber, kp: eddsa.KeyPair) {
-    this.depth = depth;
-    this.keyPair = kp;
+  get depth(): BigNumber {
+    return this._depth;
+  }
+
+  get publicKey(): Buffer {
+    return this._keyPair.getPublic();
+  }
+
+  get privateKey(): Buffer {
+    return this._keyPair.getSecret();
   }
 
   /// Computes the sha3 hash of the PublicKey and attempts to construct a Libra AccountAddress
   /// from the raw bytes of the pubkey hash
-  getAddress(): AccountAddress {
-    return AccountAddress.fromPublicKey(Buffer.from(this.keyPair.getPublic()));
+  get address(): AccountAddress {
+    return this._address;
+  }
+
+  /// Constructor for creating an ExtendedPrivKey from a ed25519 KeyPair.
+  constructor(depth: BigNumber, kp: eddsa.KeyPair) {
+    this._depth = depth;
+    this._keyPair = kp;
+    this._address = AccountAddress.fromPublicKey(
+      Buffer.from(this._keyPair.getPublic())
+    );
   }
 
   // TODO: libra_wallet uses expanded secret keys from https://github.com/dalek-cryptography/ed25519-dalek/blob/master/src/secret.rs:255, necessary? idk, look into.
   sign(hash: Buffer): eddsa.Signature {
-    return this.keyPair.sign(hash);
+    return this._keyPair.sign(hash);
   }
 }
 
@@ -42,13 +57,6 @@ export class Seed {
     salt: string,
     cb: (err: Error, dKey: Buffer) => void
   ) {
-    console.log(
-      `Mnemonic Salt Prefix: ${toHex(WalletConstants.mnemonicSaltPrefix)}`
-    );
-    console.log(`Salt as Bytes: ${toHex(salt)}`);
-    console.log(
-      `Full Salt: ${toHex(`${WalletConstants.mnemonicSaltPrefix}${salt}`)}`
-    );
     crypto.pbkdf2(
       toBytes(mnemonic.toString()),
       Buffer.from(`${WalletConstants.mnemonicSaltPrefix}${salt}`),
@@ -74,7 +82,6 @@ export default class {
   readonly masterMaterial: Buffer;
   constructor(seed: Seed) {
     this.seed = seed;
-    console.log(`Keyfactory Seed: ${Buffer.from(seed.seed).toString("hex")}`);
     this.masterMaterial = Buffer.from(
       hkdf.extract(
         "sha3-256",
@@ -85,24 +92,17 @@ export default class {
       0,
       32
     );
-    console.log(
-      `Master Material: ${Buffer.from(this.masterMaterial).toString("hex")}`
-    );
   }
 
   /// Derive a particular PrivateKey at a certain depth
   derivePrivateChild(depth: BigNumber): ExtendedPrivateKey {
     // application info in the HKDF context is defined as WalletConstants.infoPrefix+depth.
-    console.log(
-      `Creating private key with master material at depth ${depth}...`
-    );
     const buf = Buffer.alloc(8);
     buf.writeBigUInt64LE(BigInt(depth.toString()));
     const applicationInfo = Buffer.concat([
       Buffer.from(WalletConstants.infoPrefix),
       buf
     ]);
-    console.log(`Info: ${Buffer.from(applicationInfo).toString("hex")}`);
     const hkdfExpand = hkdf.expand(
       "sha3-256",
       hkdf.hash_length("sha3-256"),
@@ -110,13 +110,8 @@ export default class {
       WalletConstants.privateKeyLen,
       applicationInfo
     );
-    console.log(`hkdf Expand: ${Buffer.from(hkdfExpand).toString("hex")}`);
     const keyPair = new eddsa("ed25519").keyFromSecret(Buffer.from(hkdfExpand));
     const epk = new ExtendedPrivateKey(depth, keyPair);
-    console.log(`Private Key: ${keyPair.getSecret().toString("hex")}`);
-    console.log(
-      `Public Key: ${Buffer.from(keyPair.getPublic()).toString("hex")}`
-    );
     return epk;
   }
 }

@@ -4,6 +4,8 @@ export default {
     serverPort: 3001
   },
   endpoints: {
-    root: "/"
+    root: "/",
+    test: "/test",
+    testWords: "/testwords"
   }
 };
