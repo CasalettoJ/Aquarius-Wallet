@@ -13,10 +13,11 @@ Todos:
 
 Requires `grpc-tools` globally installed : `npm install -g grpc-tools`.
 
-1. `../scripts/build_protos.sh`
-2. `./scripts/build_server.sh`
-3. `node ./dist/server/src/app.js`
-4. in another terminal: `curl localhost:3001` to test the update ledger endpoint and `curl localhost:3001/test` to test whatever I've got in there atm until I put unit tests in here.
+make sure that the protos are built from Libra.  `cd .. && ./scripts/build_protos.sh && cd server`
+
+1. `./scripts/build_server.sh`
+2. `node ./dist/server/src/app.js`
+3. in another terminal: `curl localhost:3001` to test the update ledger endpoint and `curl localhost:3001/test` to test whatever I've got in there atm until I put unit tests in here.
 
 Sources:
 
