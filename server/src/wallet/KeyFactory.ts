@@ -3,10 +3,11 @@ const hkdf = require("futoin-hkdf");
 import { eddsa } from "elliptic";
 import BigNumber from "bignumber.js";
 
-import Mnemonic from "./Mnemonic";
-import WalletConstants from "./Constants";
-import { AccountAddress } from "./Account";
 import toBytes from "../../../common/utils/stringToBytes";
+
+import Mnemonic from "./Mnemonic";
+import { AccountAddress } from "./Account";
+import WalletConstants from "../constants/WalletConstants";
 
 export class ExtendedPrivateKey {
   private readonly _depth: BigNumber;

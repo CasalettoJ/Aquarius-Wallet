@@ -1,5 +1,6 @@
-import { AccountConstants } from "./Constants";
 import { SHA3 } from "sha3";
+
+import AccountConstants from "../constants/AccountConstants";
 
 export class AccountAddress {
   private readonly _address: Uint8Array;

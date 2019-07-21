@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 
-import serverConfig from "./ServerConfig";
+import APIConstants from "./constants/APIConstants";
 import LibraClient from "./grpc_client/LibragRPC";
 
 import TestRoutes from "./routes/Test";
@@ -10,7 +10,7 @@ import LedgerRoutes from "./routes/Ledger";
 (() => {
   // TODO: Sessions with persistent db and grpc connections
   const app = express();
-  const client = new LibraClient(serverConfig.constants.testnetAddr);
+  const client = new LibraClient(APIConstants.constants.testnetAddr);
 
   app.use(cors());
 
@@ -24,7 +24,7 @@ import LedgerRoutes from "./routes/Ledger";
   app.use(TestRoutes);
   app.use(LedgerRoutes);
 
-  app.listen(serverConfig.constants.serverPort, () => {
-    console.log(`Listening on port ${serverConfig.constants.serverPort}`);
+  app.listen(APIConstants.constants.serverPort, () => {
+    console.log(`Listening on port ${APIConstants.constants.serverPort}`);
   });
 })();

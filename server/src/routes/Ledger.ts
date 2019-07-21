@@ -3,14 +3,14 @@ import asyncHandler from "express-async-handler";
 
 import { UpdateToLatestLedgerAPIResponse } from "../../../common/api/Types";
 
-import ServerConfig from "../ServerConfig";
+import APIConstants from "../constants/APIConstants";
 import LibraClient from "../grpc_client/LibragRPC";
 
 const router = express.Router();
 
 // TODO Handle requestitems
 router.get(
-  ServerConfig.endpoints.root,
+  APIConstants.endpoints.root,
   asyncHandler(async (req, res) => {
     const client: LibraClient = res.locals.libraClient;
     const ledgerResponse = await client.GetLatestLedgerAsync([]);

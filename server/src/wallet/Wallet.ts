@@ -9,6 +9,7 @@ import KeyFactory, { Seed } from "./KeyFactory";
 import Mnemonic from "./Mnemonic";
 import BigNumber from "bignumber.js";
 import { AccountAddress } from "./Account";
+import WalletConstants from "../constants/WalletConstants";
 
 export type DerivedPublicAddress = {
   address: AccountAddress;
@@ -36,6 +37,13 @@ class AquariusWalletWrapper {
   // TODO: https://github.com/libra/libra/blob/master/client/libra_wallet/src/wallet_library.rs#L140 has error checking for this.
   get addressMap(): Map<Buffer, BigNumber> {
     return this._addressMap;
+  }
+
+  /// Returns string that can be saved to file and imported into other wallets like libra_wallet
+  get exportData(): string {
+    return `${this._mnemonic.toString()}${
+      WalletConstants.exportDepthDelimiter
+    }${this.keyLeaf.toString(10)}`;
   }
 
   static async generateNew(salt: string = ""): Promise<AquariusWalletWrapper> {

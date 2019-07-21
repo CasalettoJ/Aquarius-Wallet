@@ -1,7 +1,8 @@
 // https://github.com/libra/libra/blob/master/client/libra_wallet/src/mnemonic.rs
-import EnglishWords, { EnglishArray } from "./wordlists/English";
 import crypto from "crypto";
-import Constants from "./Constants";
+
+import EnglishWords, { EnglishArray } from "./wordlists/English";
+import WalletConstants from "../constants/WalletConstants";
 
 /// Mnemonic seed for deterministic key derivation
 class Mnemonic {
@@ -11,7 +12,7 @@ class Mnemonic {
   static fromWords(words: string | Array<string>): Mnemonic {
     const splitwords = Array.isArray(words)
       ? words
-      : words.split(Constants.mnemonicDelimiter);
+      : words.split(WalletConstants.mnemonicDelimiter);
     const mnemonic = new Mnemonic();
     if (!this.countWords(splitwords)) {
       throw `Error creating mnemonic from words: ${splitwords}\nMnemonic must have a word count divisible with 6.`;
@@ -104,7 +105,7 @@ class Mnemonic {
   }
 
   toString(): string {
-    return this.words.join(Constants.mnemonicDelimiter);
+    return this.words.join(WalletConstants.mnemonicDelimiter);
   }
 }
 

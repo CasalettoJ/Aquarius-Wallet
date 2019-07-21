@@ -1,5 +1,5 @@
 import { AccountAddress } from "./Account";
-import { AccountConstants } from "./Constants";
+import AccountConstants from "../constants/AccountConstants";
 
 export type StructTag = {
   address: AccountAddress;
