@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { RequestItem } from "../../../common/libra_proto/get_with_proof_pb";
+import { RequestItem } from "../../../common/libra_protos/get_with_proof_pb";
 import { UpdateToLatestLedgerAPIResponse } from "../../../common/api/Types";
 
 import ApiConfig from "../constants/ApiConfig";

@@ -9,15 +9,14 @@ import LedgerRoutes from "./routes/Ledger";
 
 (() => {
   // TODO: Sessions with persistent db and grpc connections
-
   const app = express();
   const client = new LibraClient(serverConfig.constants.testnetAddr);
 
   app.use(cors());
 
-  // TODO: Write proper grpc client middleware
-  app.use((req, _, next) => {
-    req.params.libraClient = client;
+  // TODO: Write proper grpc client middleware for handling multiple grpc sessions
+  app.use((req, res, next) => {
+    res.locals.libraClient = client;
     next();
   });
 

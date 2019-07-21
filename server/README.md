@@ -5,7 +5,6 @@ Todos:
 - Proper server logging + proper error handling (just has throws right now esp. in wallet) -- > https://www.npmjs.com/package/morgan / https://www.npmjs.com/package/http-errors
 - handling of requestitems w/ update requests
 - handling of transactions
-- creation of wallets / mnemonics w/ endpoints
 - minting endpoints + faucet connection
 - validator validations
 - unit tests

@@ -14,7 +14,6 @@ TODOS
 - accessibility handling (screen readers / navigators, color blindness, etc)
 - simple localization system
 - basic design guide
-- localstorage wallet handling
 
 sources:
 https://github.com/Lemoncode/react-typescript-samples/tree/master/hooks/00_BoilerPlate for reference in setting up a typescript project well.

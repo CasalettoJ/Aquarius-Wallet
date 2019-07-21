@@ -4,7 +4,6 @@
   "description": "Test wallet for Libra testnet",
   "main": "client/dist/index.html",
   "scripts": {
-    "test-server": "jest",
     "build-client": "webpack  --mode development --config ./client/webpack.config.js",
     "run-client": "webpack-dev-server --config ./client/webpack.config.js"
   },

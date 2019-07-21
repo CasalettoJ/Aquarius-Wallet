@@ -7,7 +7,7 @@ function WalletManagement() {
     <React.Fragment>
       <p>Wallet Management Page</p>
       <br />
-      <Link to={Paths.home}>Go to Wallet Management</Link>
+      <Link to={Paths.home}>Go to Home Page</Link>
     </React.Fragment>
   );
 }

@@ -12,7 +12,7 @@ const router = express.Router();
 router.get(
   ServerConfig.endpoints.root,
   asyncHandler(async (req, res) => {
-    const client: LibraClient = req.params.libraClient;
+    const client: LibraClient = res.locals.libraClient;
     const ledgerResponse = await client.GetLatestLedgerAsync([]);
     const response: UpdateToLatestLedgerAPIResponse = {
       error: null,
