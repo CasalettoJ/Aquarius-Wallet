@@ -2,7 +2,7 @@ Aquarius Wallet Server
 
 Todos:
 
-- Proper server logging + proper error handling (just has throws right now esp. in wallet)
+- Proper server logging + proper error handling (just has throws right now esp. in wallet) -- > https://www.npmjs.com/package/morgan / https://www.npmjs.com/package/http-errors
 - handling of requestitems w/ update requests
 - handling of transactions
 - creation of wallets / mnemonics w/ endpoints
@@ -10,6 +10,7 @@ Todos:
 - validator validations
 - unit tests
 - make sure that any key buffers are deliberately nulled out if they go out of scope (does this happen automatically in js? ... What's the lifecycle of a buffer?) (https://github.com/dalek-cryptography/ed25519-dalek/blob/master/src/secret.rs#L264)
+- Modular crypto that can be swapped out for next gen crypto easier -- right now the hasher being used is mainly sha3 but that is probably going to change eventually?
 
 Requires `grpc-tools` globally installed : `npm install -g grpc-tools`.
 

@@ -8,7 +8,7 @@ export class AccountAddress {
     return this._address;
   }
 
-  get hexStrAddress(): string {
+  get hexAddress(): string {
     return Buffer.from(this.address).toString("hex");
   }
 
@@ -21,7 +21,7 @@ export class AccountAddress {
   }
 
   get isDefault(): boolean {
-    return AccountAddress.default.hexStrAddress === this.hexStrAddress;
+    return AccountAddress.default.hexAddress === this.hexAddress;
   }
 
   constructor(address: Uint8Array) {
@@ -39,6 +39,14 @@ export class AccountAddress {
     const hash = addressBufferFromPublicKey(pk);
     const newAddress = new AccountAddress(new Uint8Array(hash));
     return newAddress;
+  }
+
+  static coreCodeAddress(): AccountAddress {
+    return AccountAddress.default;
+  }
+
+  static associationAddress(): AccountAddress {
+    return AccountAddress.default;
   }
 }
 

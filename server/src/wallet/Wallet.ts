@@ -87,11 +87,22 @@ class AquariusWalletWrapper {
   /// Simple public function that allows to sign a Libra RawTransaction with the PrivateKey
   /// associated to a particular AccountAddress. If the PrivateKey associated to an
   /// AccountAddress is not contained in the addr_map, then this function will throw an Error
-  // signTxn(txn: RawTransaction): SignedTransaction {
-  //   const senderAccount = txn.getSenderAccount_asU8();
-  //   if (this.addressMap.has(senderAccount.buffer)) {
-  //   }
-  // }
+  signTxn(txn: RawTransaction): SignedTransaction {
+    const senderAccount = Buffer.from(txn.getSenderAccount_asU8());
+    if (this.addressMap.has(senderAccount)) {
+      const senderAddress = this.addressMap.get(
+        Buffer.from(senderAccount.buffer)
+      );
+      // TODO
+      const rawBytes = txn.serializeBinary();
+      return null;
+    } else {
+      // TODO Error handling
+      throw `Account sending transaction not found in wallet.  Account: ${senderAccount.toString(
+        "hex"
+      )}`;
+    }
+  }
 }
 
 export default AquariusWalletWrapper;
