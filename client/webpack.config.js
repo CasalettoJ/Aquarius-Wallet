@@ -8,6 +8,10 @@ const paths = {
   components: path.resolve(__dirname, "src/components")
 };
 
+const createStyledComponentsTransformer = require("typescript-plugin-styled-components")
+  .default;
+const styledComponentsTransformer = createStyledComponentsTransformer();
+
 const webpackConfig = {
   // https://webpack.js.org/concepts/#mode
   mode: "development",
@@ -27,7 +31,17 @@ const webpackConfig = {
       {
         test: /\.tsx?$/,
         exclude: [/node_modules/],
-        use: [{ loader: "babel-loader" }, { loader: "ts-loader" }]
+        use: [
+          { loader: "babel-loader" },
+          {
+            loader: "ts-loader",
+            options: {
+              getCustomTransformers: () => ({
+                before: [styledComponentsTransformer]
+              })
+            }
+          }
+        ]
       },
       {
         test: /\.(js|jsx)$/,
