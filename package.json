@@ -34,9 +34,12 @@
     "randombytes": "^2.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-icons": "^3.7.0",
     "react-router-dom": "^5.0.1",
+    "reset-css": "^4.0.1",
     "sha3": "^2.0.6",
-    "style-loader": "^0.23.1"
+    "style-loader": "^0.23.1",
+    "styled-components": "^4.3.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.0",
@@ -55,7 +58,9 @@
     "@types/react": "^16.8.23",
     "@types/react-dom": "^16.8.4",
     "@types/react-router-dom": "^4.3.4",
+    "@types/styled-components": "^4.1.18",
     "babel-loader": "^8.0.6",
+    "babel-plugin-styled-components": "^1.10.6",
     "core-js": "^3.1.4",
     "grpc_tools_node_protoc_ts": "^2.5.4",
     "install": "^0.13.0",
@@ -63,6 +68,7 @@
     "ts-loader": "^6.0.4",
     "tslint": "^5.18.0",
     "typescript": "^3.5.3",
+    "typescript-plugin-styled-components": "^1.4.3",
     "webpack": "^4.35.3",
     "webpack-cli": "^3.3.5",
     "webpack-dev-server": "^3.7.2"

@@ -3,27 +3,34 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import "normalize.css";
+import "reset-css";
+import "../../common/types/svg"; // https://stackoverflow.com/questions/44717164/unable-to-import-svg-files-in-typescript
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import Paths from "./constants/Paths";
+
+import Header from "./components/organisms/Header";
+import Navigation from "./components/organisms/Nagivation";
 import Home from "./components/pages/Home";
-import WalletManagement from "./components/pages/WalletManagement";
-import Test from "./components/pages/Test";
+import Wallet from "./components/pages/Wallet";
+import About from "./components/pages/About";
 
 const HomePage = () => <Home />;
-const WalletManagementPage = () => <WalletManagement />;
-const TestPage = () => <Test />;
+const WalletPage = () => <Wallet />;
+const AboutPage = () => <About />;
 
 function App() {
   return (
     <BrowserRouter>
+      <Header />
+      <Navigation />
       <Switch>
-        <Route exact path={Paths.home} component={TestPage} />
-        {/* <Route exact path={Paths.home} component={HomePage} />
-        <Route path={Paths.walletManagement} component={WalletManagementPage} /> */}
+        <Route exact path={Paths.home} component={HomePage} />
+        <Route path={Paths.wallet} component={WalletPage} />
+        <Route path={Paths.about} component={AboutPage} />
       </Switch>
     </BrowserRouter>
   );

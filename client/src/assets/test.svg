@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="71px" height="55px" viewBox="0 0 71 55" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>Untitled</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="-2.48949813e-15%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#CC1435" offset="0%"></stop>
+            <stop stop-color="#FF5240" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <text id="Aquarius-Wallet" font-family="Roboto-Regular, Roboto" font-size="24" font-weight="normal" fill="#000000">
+            <tspan x="-50" y="74">Aquarius Wallet</tspan>
+        </text>
+        <g id="Group-5" transform="translate(1.000000, 1.000000)" stroke="#000000" stroke-width="2">
+            <path d="M0,47 L69,47" id="Line"></path>
+            <path d="M0,33 L20,33 M49,33 L69,33" id="Shape"></path>
+            <path d="M51.6169031,32.8449718 C53.7551792,29.5003195 55,25.4921481 55,21.1835389 C55,9.48419341 45.8218374,0 34.5,0 C23.1781626,0 14,9.48419341 14,21.1835389 C14,25.5589235 15.2837046,29.6244857 17.4831572,33" id="Path" fill="url(#linearGradient-1)"></path>
+            <path d="M0,52.5 L11.5,41 C12.7186229,42.2186229 16.5519562,46.0519562 23,52.5" id="Path-Copy-2"></path>
+            <path d="M23,52.5 L34.5,41 C35.7186229,42.2186229 39.5519562,46.0519562 46,52.5" id="Path-Copy-2" stroke-linecap="round"></path>
+            <path d="M46,52.5 L57.5,41 C58.7186229,42.2186229 62.5519562,46.0519562 69,52.5" id="Path-Copy-2"></path>
+            <polyline id="Path-Copy-6" points="46 37.7 57.5 26.2 69 37.7"></polyline>
+            <polyline id="Path-Copy-5" fill="#FFFFFF" stroke-linecap="round" points="23 37.7 34.5 26.2 46 37.7"></polyline>
+            <polyline id="Path-Copy-4" points="2.48689958e-14 37.7 11.5 26.2 23 37.7"></polyline>
+            <path d="M12,33 L53,33" id="Line-2" stroke-linecap="square"></path>
+        </g>
+    </g>
+</svg>
