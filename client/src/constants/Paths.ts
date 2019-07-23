@@ -1,5 +1,4 @@
 export default {
   home: "/",
-  wallet: "/wallet",
-  about: "/about"
+  wallet: "/wallet"
 };

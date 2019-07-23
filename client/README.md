@@ -19,3 +19,4 @@ sources:
 
 - https://github.com/Lemoncode/react-typescript-samples/tree/master/hooks/00_BoilerPlate for reference in setting up a typescript project well.
 - https://www.gradient-animator.com/ - cool css generator
+- https://kentcdodds.com/blog/how-to-use-react-context-effectively - Nice article on using context API
