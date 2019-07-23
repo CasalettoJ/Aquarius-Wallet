@@ -5,7 +5,6 @@ function Wallet() {
   return (
     <Card>
       <p>Wallet Page</p>
-
       <br />
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod

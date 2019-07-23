@@ -1,10 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-import {
-  IoMdAnalytics,
-  IoMdWallet,
-  IoMdInformationCircle
-} from "react-icons/io";
+import { IoMdAnalytics, IoMdWallet } from "react-icons/io";
 
 import Colors from "../../constants/Colors";
 import Paths from "../../constants/Paths";
@@ -50,12 +46,6 @@ function Navigation() {
       <AlignedIcons>
         <StyledNavLink to={Paths.wallet}>
           <IoMdWallet size={"1.2em"} /> <StyledLabel>Wallet</StyledLabel>
-        </StyledNavLink>
-      </AlignedIcons>
-      <AlignedIcons>
-        <StyledNavLink to={Paths.about}>
-          <IoMdInformationCircle size={"1.2em"} />
-          <StyledLabel>About</StyledLabel>
         </StyledNavLink>
       </AlignedIcons>
     </NavigationContainer>

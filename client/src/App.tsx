@@ -16,11 +16,11 @@ import Header from "./components/organisms/Header";
 import Navigation from "./components/organisms/Nagivation";
 import Home from "./components/pages/Home";
 import Wallet from "./components/pages/Wallet";
-import About from "./components/pages/About";
+
+import { LedgerProvider } from "./context/LedgerContext";
 
 const HomePage = () => <Home />;
 const WalletPage = () => <Wallet />;
-const AboutPage = () => <About />;
 
 function App() {
   return (
@@ -28,9 +28,10 @@ function App() {
       <Header />
       <Navigation />
       <Switch>
-        <Route exact path={Paths.home} component={HomePage} />
+        <LedgerProvider>
+          <Route exact path={Paths.home} component={HomePage} />
+        </LedgerProvider>
         <Route path={Paths.wallet} component={WalletPage} />
-        <Route path={Paths.about} component={AboutPage} />
       </Switch>
     </BrowserRouter>
   );
