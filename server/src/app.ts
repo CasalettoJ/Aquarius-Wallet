@@ -1,11 +1,12 @@
 import express from "express";
 import cors from "cors";
 
-import APIConstants from "./constants/APIConstants";
+import APIConstants from "../../common/api/APIConstants";
 import LibraClient from "./grpc_client/LibragRPC";
 
 import TestRoutes from "./routes/Test";
 import LedgerRoutes from "./routes/Ledger";
+import WalletRoutes from "./routes/Wallet";
 
 (() => {
   // TODO: Sessions with persistent db and grpc connections
@@ -23,8 +24,9 @@ import LedgerRoutes from "./routes/Ledger";
   // Routes
   app.use(TestRoutes);
   app.use(LedgerRoutes);
+  app.use(WalletRoutes);
 
-  app.listen(APIConstants.constants.serverPort, () => {
-    console.log(`Listening on port ${APIConstants.constants.serverPort}`);
+  app.listen(3001, () => {
+    console.log(`Listening on port 3001`);
   });
 })();

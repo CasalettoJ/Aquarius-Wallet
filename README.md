@@ -1,4 +1,7 @@
-Aquarius Wallet
+# Aquarius Wallet
+
+Intended for testnet use right now.
+Currently a POC with no regards for security and no custodial design.
 
 ## Common
 
@@ -8,12 +11,25 @@ Contains shared code and types and proto files
 
 Contains the test frontend website for Aquarius-Wallet. Targets modern browsers and mobile browsers, intended for responsive design.
 
-Future TODO: Native app or PWA for better mobile support. Golang Client.
-
 ## Server
 
-Contains the test backend for Aquarius-Wallet
+Contains the test backend for Aquarius-Wallet.
 
-- API endpoints for wallet / transaction handling
+Components:
+
+- gRPC client
+  - Currently only admission_control is open on testnet grpc
+  - BIG TODO
+- API Endpoints
+  - Wallet (Create, Import, NewAddress)
+  - Transactions (Send, Mint) TODO
+  - User Accounts w/ Authentication for wallet handling TODO (use facebook accounts?)
+  - LedgerQuerying (UpdateLedger, Transaction Histories for Addresses) TODO
+- Wallet
+
+  - Based on [libra_wallet](https://github.com/libra/libra/tree/master/client/libra_wallet)
+  - Needs to handle: ~~Creation~~, ~~Import~~, Transactions, ~~Address Generation,~~ Secure key handling, and custodial user accounts integration
+  - Needs big refactor for handling next_gen crypto elegantly and error handling
+
+- API endpoints for wallet / transaction handling and ledger querying
 - gRPC Client for testnet interaction
-- So far no storage / ORM necessary in MVP

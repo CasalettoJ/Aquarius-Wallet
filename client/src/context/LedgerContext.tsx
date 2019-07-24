@@ -3,18 +3,18 @@ import { AxiosError } from "axios";
 import { ServiceError } from "grpc";
 
 import { UpdateToLatestLedgerAPIResponse } from "../../../common/api/Types";
-import { GetLatestLedger } from "../api/Ledger";
+import { getLatestLedger } from "../api/Ledger";
 
 type LedgerContextType = {
   latestLedger: UpdateToLatestLedgerAPIResponse;
   latestLedgerError: AxiosError<UpdateToLatestLedgerAPIResponse> | ServiceError;
-  updateLedger: () => void;
+  updateLedger: () => Promise<void>;
 };
 
 const defaultLedgerState: LedgerContextType = {
   latestLedger: null,
   latestLedgerError: null,
-  updateLedger: () => {}
+  updateLedger: async () => {}
 };
 
 const LedgerContext = React.createContext<LedgerContextType>(
@@ -36,7 +36,7 @@ export function LedgerProvider(props: Props) {
     setLastResponse(null);
     setLastErr(null);
     try {
-      const resp = await GetLatestLedger([]); // TODO: Need to handle request items
+      const resp = await getLatestLedger([]); // TODO: Need to handle request items
       if (resp.data.error) {
         setLastErr(resp.data.error);
       } else {

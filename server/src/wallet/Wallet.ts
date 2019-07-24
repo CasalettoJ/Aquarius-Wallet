@@ -1,15 +1,17 @@
 import randomBytes from "randombytes";
+import BigNumber from "bignumber.js";
 
 import {
   RawTransaction,
   SignedTransaction
 } from "../../../common/libra_protos/transaction_pb";
+import { AddressMapType } from "../../../common/api/Types";
+
+import WalletConstants from "../constants/WalletConstants";
 
 import KeyFactory, { Seed } from "./KeyFactory";
 import Mnemonic from "./Mnemonic";
-import BigNumber from "bignumber.js";
 import { AccountAddress } from "./Account";
-import WalletConstants from "../constants/WalletConstants";
 
 export type DerivedPublicAddress = {
   address: AccountAddress;
@@ -20,13 +22,13 @@ export type DerivedPublicAddress = {
 class AquariusWalletWrapper {
   private readonly _mnemonic: Mnemonic;
   private readonly _keyFactory: KeyFactory;
-  private _addressMap: Map<Buffer, BigNumber>;
+  private _addressMap: AddressMapType;
   private _keyLeaf: BigNumber;
 
   constructor(kf: KeyFactory, m: Mnemonic) {
     this._keyFactory = kf;
     this._keyLeaf = new BigNumber(0);
-    this._addressMap = new Map<Buffer, BigNumber>();
+    this._addressMap = {};
     this._mnemonic = m;
   }
 
@@ -35,7 +37,7 @@ class AquariusWalletWrapper {
   }
 
   // TODO: https://github.com/libra/libra/blob/master/client/libra_wallet/src/wallet_library.rs#L140 has error checking for this.
-  get addressMap(): Map<Buffer, BigNumber> {
+  get addressMap(): AddressMapType {
     return this._addressMap;
   }
 
@@ -88,7 +90,8 @@ class AquariusWalletWrapper {
 
   generateNewAddress(): DerivedPublicAddress {
     const epk = this._keyFactory.derivePrivateChild(this.keyLeaf);
-    this._keyLeaf.plus(1);
+    this._keyLeaf = this._keyLeaf.plus(1);
+    this._addressMap[epk.address.hexAddress] = epk.depth;
     return { address: epk.address, depth: epk.depth };
   }
 
@@ -97,10 +100,8 @@ class AquariusWalletWrapper {
   /// AccountAddress is not contained in the addr_map, then this function will throw an Error
   signTxn(txn: RawTransaction): SignedTransaction {
     const senderAccount = Buffer.from(txn.getSenderAccount_asU8());
-    if (this.addressMap.has(senderAccount)) {
-      const senderAddress = this.addressMap.get(
-        Buffer.from(senderAccount.buffer)
-      );
+    if (this._addressMap[senderAccount.toString("hex")]) {
+      const senderAddress = this.addressMap[senderAccount.toString("hex")];
       // TODO
       const rawBytes = txn.serializeBinary();
       return null;

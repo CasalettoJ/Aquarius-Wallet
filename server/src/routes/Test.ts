@@ -2,7 +2,7 @@ import express from "express";
 import asyncHandler from "express-async-handler";
 import bodyParser = require("body-parser");
 
-import APIConstants from "../constants/APIConstants";
+import APIConstants from "../../../common/api/APIConstants";
 import AquariusWalletWrapper from "../wallet/Wallet";
 import Mnemonic from "../wallet/Mnemonic";
 
