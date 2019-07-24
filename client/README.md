@@ -1,19 +1,19 @@
 Aquarius Wallet Web Project
 
-from root dir:
-
-- `./scripts/build_protos.sh`
-- `npm run build`
-- Open dist/index.html
+- Make sure the proto files are built for the project (go to root and run the build_protos script)
+- Make sure the server is built (and running)
+- `npm run run-client`
 
 TODOS
 
-- everything, but also:
 - Responsive grid system w/ touch control
 - API implementation
 - accessibility handling (screen readers / navigators, color blindness, etc)
 - simple localization system
 - basic design guide
+- refactor everything to be more mvvm-like since you're using the context api as a viewmodel anyway...
+- or stop doing that
+- cute little QR codes people love that stuff
 
 sources:
 

@@ -1,12 +1,14 @@
 export default {
   constants: {
-    testnetAddr: "ac.testnet.libra.org:8000",
-    serverPort: 3001
+    walletHost: "localhost:3001",
+    testnetAddr: "ac.testnet.libra.org:8000"
   },
+  // TODO: Endpoint scheme w/ verbs that makes actual sense.
   endpoints: {
     root: "/",
     wallet: {
       create: "/wallet/new",
+      newAccount: "/wallet/generate",
       import: "/wallet/import",
       export: "/wallet/export"
     },
