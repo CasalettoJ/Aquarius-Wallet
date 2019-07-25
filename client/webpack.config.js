@@ -76,8 +76,12 @@ const webpackConfig = {
 
   devServer: {
     contentBase: paths.build,
+    port: 3000,
     publicPath: "/",
-    historyApiFallback: true
+    historyApiFallback: true,
+    headers: {
+      "Access-Control-Allow-Origin": "*"
+    }
   },
 
   resolve: {

@@ -13,10 +13,5 @@ export type UnsafeWalletType = {
   addresses: AddressMapType;
   lastError: string;
 };
-export const EmptyUnsafeWallet: UnsafeWalletType = {
-  mnemonic: null,
-  addresses: {},
-  lastError: null
-};
 
 export type AddressMapType = { [key: string]: BigNumber };

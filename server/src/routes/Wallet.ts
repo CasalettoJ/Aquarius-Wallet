@@ -7,10 +7,8 @@ import AquariusWalletWrapper from "../wallet/Wallet";
 import Mnemonic from "../wallet/Mnemonic";
 import WalletConstants from "../constants/WalletConstants";
 
-import { EmptyUnsafeWallet } from "../../../common/api/Types";
 import BigNumber from "bignumber.js";
-import console = require("console");
-import { object } from "prop-types";
+import { UnsafeWalletType } from "../../../common/api/Types";
 
 const router = express.Router();
 const jsonParser = bodyParser.json();
@@ -19,7 +17,11 @@ router.post(
   APIConstants.endpoints.wallet.create,
   jsonParser,
   asyncHandler(async (req, res) => {
-    const response = EmptyUnsafeWallet;
+    const response: UnsafeWalletType = {
+      mnemonic: null,
+      addresses: {},
+      lastError: null
+    };
     const salt = req.body.salt ? req.body.salt : WalletConstants.defaultSalt;
     const wallet = await AquariusWalletWrapper.generateNew(salt);
     wallet.generateNewAddress();
@@ -35,7 +37,11 @@ router.post(
   APIConstants.endpoints.wallet.import,
   jsonParser,
   asyncHandler(async (req, res) => {
-    const response = EmptyUnsafeWallet;
+    const response: UnsafeWalletType = {
+      mnemonic: null,
+      addresses: {},
+      lastError: null
+    };
 
     const salt = req.body.salt ? req.body.salt : WalletConstants.defaultSalt;
     const { mnemonic }: { mnemonic: string } = req.body;
@@ -57,7 +63,11 @@ router.post(
   APIConstants.endpoints.wallet.newAccount,
   jsonParser,
   asyncHandler(async (req, res) => {
-    const response = EmptyUnsafeWallet;
+    const response: UnsafeWalletType = {
+      mnemonic: null,
+      addresses: {},
+      lastError: null
+    };
 
     const salt = req.body.salt
       ? req.body.salt

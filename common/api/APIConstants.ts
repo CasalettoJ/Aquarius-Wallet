@@ -1,6 +1,6 @@
 export default {
   constants: {
-    walletHost: "localhost:3001",
+    walletHost: "http://localhost:3001",
     testnetAddr: "ac.testnet.libra.org:8000"
   },
   // TODO: Endpoint scheme w/ verbs that makes actual sense.

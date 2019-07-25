@@ -1,19 +1,19 @@
 import express from "express";
-import cors from "cors";
+import cors = require("cors");
 
 import APIConstants from "../../common/api/APIConstants";
-import LibraClient from "./grpc_client/LibragRPC";
 
+import LibraClient from "./grpc_client/LibragRPC";
 import TestRoutes from "./routes/Test";
 import LedgerRoutes from "./routes/Ledger";
 import WalletRoutes from "./routes/Wallet";
+import console = require("console");
 
 (() => {
   // TODO: Sessions with persistent db and grpc connections
   const app = express();
-  const client = new LibraClient(APIConstants.constants.testnetAddr);
-
   app.use(cors());
+  const client = new LibraClient(APIConstants.constants.testnetAddr);
 
   // TODO: Write proper grpc client middleware for handling multiple grpc sessions
   app.use((req, res, next) => {

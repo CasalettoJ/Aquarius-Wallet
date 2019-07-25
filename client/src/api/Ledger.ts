@@ -19,6 +19,7 @@ export async function getLatestLedger(
     if (!err.response) {
       resp.networkError = true;
     }
+    console.log(JSON.stringify(resp));
     throw resp;
   }
 }

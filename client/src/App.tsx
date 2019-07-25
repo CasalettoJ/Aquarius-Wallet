@@ -17,8 +17,6 @@ import Navigation from "./components/organisms/Nagivation";
 import Home from "./components/pages/Home";
 import Wallet from "./components/pages/Wallet";
 
-import { LedgerProvider } from "./context/LedgerContext";
-
 const HomePage = () => <Home />;
 const WalletPage = () => <Wallet />;
 
@@ -28,9 +26,7 @@ function App() {
       <Header />
       <Navigation />
       <Switch>
-        <LedgerProvider>
-          <Route exact path={Paths.home} component={HomePage} />
-        </LedgerProvider>
+        <Route exact path={Paths.home} component={HomePage} />
         <Route path={Paths.wallet} component={WalletPage} />
       </Switch>
     </BrowserRouter>

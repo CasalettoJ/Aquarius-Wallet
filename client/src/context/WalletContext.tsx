@@ -2,23 +2,27 @@ import * as React from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { ServiceError } from "grpc";
 
-import { EmptyUnsafeWallet, UnsafeWalletType } from "../../../common/api/Types";
+import { UnsafeWalletType } from "../../../common/api/Types";
 
 import * as WalletAPI from "../api/Wallet";
 
 type WalletContextType = {
   latestWallet: UnsafeWalletType;
-  latestAPIError:
+  latestAPIError: (
     | AxiosError<UnsafeWalletType>
     | ServiceError
-    | AxiosResponse<UnsafeWalletType>; // TODO: Make these context types consistent ; separate API, gRPC, and backend errors when setting up error handling
+    | AxiosResponse<UnsafeWalletType>) & { networkError?: boolean }; // TODO: Make these context types consistent ; separate API, gRPC, and backend errors when setting up error handling
   createWallet: (s: string) => Promise<void>;
   importWallet: (m: string, s: string) => Promise<void>;
   newAddress: (m: string, s: string) => Promise<void>;
 };
 
 const defaultWalletState: WalletContextType = {
-  latestWallet: EmptyUnsafeWallet,
+  latestWallet: {
+    mnemonic: null,
+    addresses: {},
+    lastError: null
+  },
   latestAPIError: null,
   createWallet: async (salt: string) => {},
   importWallet: async (mnemonic: string, salt: string) => {},

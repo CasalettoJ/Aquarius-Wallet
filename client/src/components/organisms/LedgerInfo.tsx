@@ -4,6 +4,7 @@ import Colors from "../../constants/Colors";
 
 import { useLedgerContext } from "../../context/LedgerContext";
 import { IoMdRefreshCircle } from "react-icons/io";
+import ErrorText from "../atoms/ErrorText";
 
 const Container = styled.div`
   display: flex;
@@ -14,6 +15,7 @@ const RefreshButton = styled(IoMdRefreshCircle)`
   color: ${Colors.action};
   cursor: pointer;
   margin-right: 24px;
+  min-width: 5%;
 
   &:hover {
     color: ${Colors.secondary};
@@ -35,7 +37,12 @@ function LedgerInfo() {
       <RefreshButton onClick={handleClick} size="48px" />
       <br />
       {latestLedgerError && (
-        <div> ERROR: {JSON.stringify(latestLedgerError)}</div>
+        <ErrorText>
+          Error querying the Libra testnet:{" "}
+          {latestLedgerError.networkError
+            ? "Network Error"
+            : JSON.stringify(latestLedgerError)}
+        </ErrorText>
       )}
       {latestLedger && (
         <div>

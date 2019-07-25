@@ -1,26 +1,27 @@
 import * as React from "react";
 import Card from "../atoms/Card";
 
+import WalletInfo from "../organisms/WalletInfo";
+import { WalletProvider } from "../../context/WalletContext";
+import ErrorText from "../atoms/ErrorText";
+
 function Wallet() {
   return (
-    <Card>
-      <p>Wallet Page</p>
-      <br />
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Cursus risus at
-        ultrices mi. Nec dui nunc mattis enim ut tellus elementum sagittis
-        vitae. Sit amet luctus venenatis lectus magna. Tincidunt eget nullam non
-        nisi est sit amet. Sodales ut etiam sit amet nisl purus in. Venenatis a
-        condimentum vitae sapien pellentesque habitant morbi tristique. Id
-        aliquet risus feugiat in ante metus dictum at. Lacus suspendisse
-        faucibus interdum posuere lorem ipsum dolor sit amet. Libero nunc
-        consequat interdum varius sit amet mattis vulputate enim. Id leo in
-        vitae turpis massa sed. Posuere sollicitudin aliquam ultrices sagittis
-        orci a scelerisque purus. Sit amet massa vitae tortor condimentum.
-        Vivamus arcu felis bibendum ut tristique.
-      </p>
-    </Card>
+    <WalletProvider>
+      <Card>
+        <ErrorText>
+          This wallet is not secure and is only a demonstration.
+        </ErrorText>
+        <br />
+        <ErrorText>
+          It does not save any data locally, store your keyphrase if you want to
+          keep using it to test!
+        </ErrorText>
+      </Card>
+      <Card>
+        <WalletInfo />
+      </Card>
+    </WalletProvider>
   );
 }
 

@@ -7,7 +7,9 @@ import { getLatestLedger } from "../api/Ledger";
 
 type LedgerContextType = {
   latestLedger: UpdateToLatestLedgerAPIResponse;
-  latestLedgerError: AxiosError<UpdateToLatestLedgerAPIResponse> | ServiceError;
+  latestLedgerError: (
+    | AxiosError<UpdateToLatestLedgerAPIResponse>
+    | ServiceError) & { networkError?: Boolean }; //TODO: Holy shit this typing, sort all error handling and error typing out.
   updateLedger: () => Promise<void>;
 };
 
@@ -29,7 +31,9 @@ export function LedgerProvider(props: Props) {
     UpdateToLatestLedgerAPIResponse
   >(null);
   const [lastErr, setLastErr] = React.useState<
-    AxiosError<UpdateToLatestLedgerAPIResponse> | ServiceError
+    (AxiosError<UpdateToLatestLedgerAPIResponse> | ServiceError) & {
+      networkError?: boolean;
+    }
   >(null);
 
   async function updateLedger() {
