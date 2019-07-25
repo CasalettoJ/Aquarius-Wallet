@@ -30,6 +30,3 @@ Components:
   - Based on [libra_wallet](https://github.com/libra/libra/tree/master/client/libra_wallet)
   - Needs to handle: ~~Creation~~, ~~Import~~, Transactions, ~~Address Generation,~~ Secure key handling, and custodial user accounts integration
   - Needs big refactor for handling next_gen crypto elegantly and error handling
-
-- API endpoints for wallet / transaction handling and ledger querying
-- gRPC Client for testnet interaction
