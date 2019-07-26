@@ -12,7 +12,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import Paths from "./constants/Paths";
 
-import Header from "./components/organisms/Header";
+import Header from "./components/molecules/Header";
 import Navigation from "./components/organisms/Nagivation";
 import Home from "./components/pages/Home";
 import Wallet from "./components/pages/Wallet";

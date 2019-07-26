@@ -1,14 +1,21 @@
 import * as React from "react";
 import Card from "../atoms/Card";
+import styled from "styled-components";
 
 import WalletInfo from "../organisms/WalletInfo";
 import { WalletProvider } from "../../context/WalletContext";
 import ErrorText from "../atoms/ErrorText";
 
+const Container = styled(Card)`
+  padding: 24px;
+  margin: 24px;
+  display: flex;
+`;
+
 function Wallet() {
   return (
     <WalletProvider>
-      <Card>
+      <Container>
         <ErrorText>
           This wallet is not secure and is only a demonstration.
         </ErrorText>
@@ -17,10 +24,8 @@ function Wallet() {
           It does not save any data locally, store your keyphrase if you want to
           keep using it to test!
         </ErrorText>
-      </Card>
-      <Card>
-        <WalletInfo />
-      </Card>
+      </Container>
+      <WalletInfo />
     </WalletProvider>
   );
 }
