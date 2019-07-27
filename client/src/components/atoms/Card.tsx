@@ -12,11 +12,12 @@ const StyledDiv = styled.div`
 `;
 
 type Props = {
+  className?: string;
   children?: any;
 };
 
 function Card(props: Props) {
-  return <StyledDiv>{props.children}</StyledDiv>;
+  return <StyledDiv className={props.className}>{props.children}</StyledDiv>;
 }
 
 export default Card;

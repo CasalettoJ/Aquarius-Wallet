@@ -9,7 +9,7 @@ Contains shared code and types and proto files
 
 ## Client
 
-Contains the test frontend website for Aquarius-Wallet. Targets modern browsers and mobile browsers, intended for responsive design.
+Contains the test frontend website for Aquarius-Wallet. It is a POC and needs heavy refactoring for real use.
 
 ## Server
 

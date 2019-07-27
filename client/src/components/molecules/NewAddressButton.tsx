@@ -5,19 +5,18 @@ import Colors from "../../constants/Colors";
 import { useWalletContext } from "../../context/WalletContext";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
-const actionButtonStyle = `
-color: ${Colors.action};
-cursor: pointer;
-margin-right: 24px;
-min-width: 5%;
+const NewAddressStyledButton = styled.button`
+  color: ${Colors.action};
+  cursor: pointer;
+  margin-right: 24px;
+  min-width: 5%;
+  background-color: transparent;
+  border: none;
+  margin-top: 24px;
 
-&:hover {
-  color: ${Colors.secondary};
-}
-`;
-
-const NewAddress = styled(IoMdAddCircleOutline)`
-  ${actionButtonStyle}
+  &:hover {
+    color: ${Colors.secondary};
+  }
 `;
 
 type Props = {
@@ -28,10 +27,12 @@ function NewAddressButton(props: Props) {
 
   return latestWallet ? (
     <React.Fragment>
-      <NewAddress
+      <NewAddressStyledButton
         onClick={async () => await newAddress(latestWallet.mnemonic, "LIBRA")}
-        size={props.size}
-      />
+      >
+        <h2>Add New Account</h2>
+        <IoMdAddCircleOutline size={props.size} />
+      </NewAddressStyledButton>
     </React.Fragment>
   ) : null;
 }

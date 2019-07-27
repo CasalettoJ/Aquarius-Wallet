@@ -8,6 +8,7 @@ import * as WalletAPI from "../api/Wallet";
 
 type WalletContextType = {
   latestWallet: UnsafeWalletType;
+  activeAccount?: { depth: number; address: string };
   latestAPIError: (
     | AxiosError<UnsafeWalletType>
     | ServiceError
@@ -15,6 +16,8 @@ type WalletContextType = {
   createWallet: (s: string) => Promise<void>;
   importWallet: (m: string, s: string) => Promise<void>;
   newAddress: (m: string, s: string) => Promise<void>;
+  setActiveAccount: (a: { depth: number; address: string }) => void;
+  destroyWallet: () => void;
 };
 
 const defaultWalletState: WalletContextType = {
@@ -24,9 +27,12 @@ const defaultWalletState: WalletContextType = {
     lastError: null
   },
   latestAPIError: null,
+  activeAccount: null,
   createWallet: async (salt: string) => {},
   importWallet: async (mnemonic: string, salt: string) => {},
-  newAddress: async (mnemonic: string, salt: string) => {}
+  newAddress: async (mnemonic: string, salt: string) => {},
+  destroyWallet: () => {},
+  setActiveAccount: (a: { depth: number; address: string }) => {}
 };
 
 const WalletContext = React.createContext<WalletContextType>(
@@ -45,6 +51,10 @@ export function WalletProvider(props: Props) {
     | ServiceError
     | AxiosResponse<UnsafeWalletType>
   >(null);
+  const [activeAccount, setActiveAccount] = React.useState<{
+    depth: number;
+    address: string;
+  }>(null);
 
   async function createWallet(salt: string) {
     setLatestAPIError(null);
@@ -55,6 +65,10 @@ export function WalletProvider(props: Props) {
         setLatestAPIError(response);
       } else {
         setLatestWallet(response.data);
+        setActiveAccount({
+          depth: 0,
+          address: Object.keys(response.data.addresses)[0]
+        });
       }
     } catch (err) {
       setLatestAPIError(err); // TODO: Error handling
@@ -69,6 +83,10 @@ export function WalletProvider(props: Props) {
         setLatestAPIError(response);
       } else {
         setLatestWallet(response.data);
+        setActiveAccount({
+          depth: 0,
+          address: Object.keys(response.data.addresses)[0]
+        });
       }
     } catch (err) {
       setLatestAPIError(err); // TODO: Error handling
@@ -92,13 +110,19 @@ export function WalletProvider(props: Props) {
   return (
     <WalletContext.Provider
       value={{
-        latestAPIError: latestAPIError,
+        latestAPIError,
         latestWallet,
+        activeAccount,
+        setActiveAccount,
         createWallet: async (salt: string) => await createWallet(salt),
         importWallet: async (mnemonic: string, salt: string) =>
           await importWallet(mnemonic, salt),
         newAddress: async (mnemonic: string, salt: string) =>
-          await generateNewAddress(mnemonic, salt)
+          await generateNewAddress(mnemonic, salt),
+        destroyWallet: () => {
+          setLatestWallet(null);
+          setActiveAccount(null);
+        }
       }}
     >
       {props.children}

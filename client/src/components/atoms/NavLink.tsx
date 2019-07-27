@@ -6,6 +6,7 @@ import Colors from "../../constants/Colors";
 
 type Props = {
   to: any;
+  className?: string;
   children?: any;
 };
 
@@ -29,7 +30,7 @@ const StyledNavLink = styled(NavLink)`
 
 function NavLinkComponent(props: Props) {
   return (
-    <StyledNavLink exact to={props.to} {...props}>
+    <StyledNavLink className={props.className} exact to={props.to} {...props}>
       {props.children}
     </StyledNavLink>
   );

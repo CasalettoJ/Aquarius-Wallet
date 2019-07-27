@@ -13,11 +13,16 @@ const GradientContainerDiv = styled.div`
 `;
 
 type Props = {
+  className?: string;
   children?: any;
 };
 
 function GradientContainer(props: Props) {
-  return <GradientContainerDiv>{props.children}</GradientContainerDiv>;
+  return (
+    <GradientContainerDiv className={props.className}>
+      {props.children}
+    </GradientContainerDiv>
+  );
 }
 
 export default GradientContainer;

@@ -9,6 +9,7 @@ const Container = styled(Card)`
   padding: 24px;
   margin: 24px;
   display: flex;
+  flex-direction: column;
 `;
 
 function Wallet() {
