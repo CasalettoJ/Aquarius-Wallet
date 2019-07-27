@@ -6,6 +6,7 @@ import { useWalletContext } from "../../context/WalletContext";
 import { IoMdWallet, IoMdCreate } from "react-icons/io";
 import Card from "../atoms/Card";
 import NewAddressButton from "./NewAddressButton";
+import ImportWalletForm from "./ImportWalletForm";
 
 const Container = styled.div`
   display: flex;
@@ -39,15 +40,7 @@ function WalletControls() {
           onClick={async () => await createWallet("LIBRA")}
           size="48px"
         />
-        <ImportWalletButton
-          onClick={async () =>
-            await importWallet(
-              "gym roast napkin pact then feel drill joy army crisp unlock oyster ramp receive typical spirit stick daughter enough stumble soul heavy minute screen;4",
-              "LIBRA"
-            )
-          }
-          size="48px"
-        />
+        <ImportWalletForm />
         <NewAddressButton size="48px" />
       </Container>
     </Card>

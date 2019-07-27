@@ -3,7 +3,6 @@ import Card from "../atoms/Card";
 import styled from "styled-components";
 
 import WalletInfo from "../organisms/WalletInfo";
-import { WalletProvider } from "../../context/WalletContext";
 import ErrorText from "../atoms/ErrorText";
 
 const Container = styled(Card)`
@@ -14,7 +13,7 @@ const Container = styled(Card)`
 
 function Wallet() {
   return (
-    <WalletProvider>
+    <React.Fragment>
       <Container>
         <ErrorText>
           This wallet is not secure and is only a demonstration.
@@ -26,7 +25,7 @@ function Wallet() {
         </ErrorText>
       </Container>
       <WalletInfo />
-    </WalletProvider>
+    </React.Fragment>
   );
 }
 
