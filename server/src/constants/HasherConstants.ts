@@ -18,5 +18,7 @@ export default {
   contractEventHasher: "ContractEvent",
   /// The hasher used only for testing. It doesn't have a salt.
   testOnlyHasher: "",
-  discoveryMsgHasher: "DiscoveryMsg"
+  discoveryMsgHasher: "DiscoveryMsg",
+  bytesLength: 32,
+  bitsLength: 256
 };

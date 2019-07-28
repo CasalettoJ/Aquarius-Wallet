@@ -12,6 +12,8 @@ import WalletConstants from "../constants/WalletConstants";
 import KeyFactory, { Seed } from "./KeyFactory";
 import Mnemonic from "./Mnemonic";
 import { AccountAddress } from "./Account";
+import { DefaultHasher } from "./Crypto";
+import HasherConstants from "../constants/HasherConstants";
 
 export type DerivedPublicAddress = {
   address: AccountAddress;
@@ -101,10 +103,24 @@ class AquariusWalletWrapper {
   signTxn(txn: RawTransaction): SignedTransaction {
     const senderAccount = Buffer.from(txn.getSenderAccount_asU8());
     if (this._addressMap[senderAccount.toString("hex")]) {
-      const senderAddress = this.addressMap[senderAccount.toString("hex")];
-      // TODO
+      const rawTxHasher = DefaultHasher.newWithSalt(
+        Buffer.from(HasherConstants.rawTransactionHasher)
+      );
+
+      const senderDepth = this.addressMap[senderAccount.toString("hex")];
+      // TODO - test
       const rawBytes = txn.serializeBinary();
-      return null;
+      const hash = rawTxHasher.finalize(Buffer.from(rawBytes));
+      const childKey = this._keyFactory.derivePrivateChild(senderDepth);
+      const signature = childKey.sign(hash);
+      const pubKey = childKey.publicKey;
+
+      let signedTx = new SignedTransaction();
+      signedTx.setRawTxnBytes(rawBytes);
+      signedTx.setSenderPublicKey(pubKey.toString("hex"));
+      signedTx.setSenderSignature(signature.toBytes());
+
+      return signedTx;
     } else {
       // TODO Error handling
       throw `Account sending transaction not found in wallet.  Account: ${senderAccount.toString(

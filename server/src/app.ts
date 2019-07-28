@@ -4,7 +4,6 @@ import cors = require("cors");
 import APIConstants from "../../common/api/APIConstants";
 
 import LibraClient from "./grpc_client/LibragRPC";
-import TestRoutes from "./routes/Test";
 import LedgerRoutes from "./routes/Ledger";
 import WalletRoutes from "./routes/Wallet";
 import console = require("console");
@@ -22,7 +21,6 @@ import console = require("console");
   });
 
   // Routes
-  app.use(TestRoutes);
   app.use(LedgerRoutes);
   app.use(WalletRoutes);
 
