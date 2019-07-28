@@ -2,8 +2,8 @@ import express from "express";
 import asyncHandler from "express-async-handler";
 
 import { UpdateToLatestLedgerAPIResponse } from "../../../common/api/Types";
-
 import APIConstants from "../../../common/api/APIConstants";
+
 import LibraClient from "../grpc_client/LibragRPC";
 
 const router = express.Router();

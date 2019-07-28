@@ -4,7 +4,7 @@ import { UpdateToLatestLedgerAPIResponse } from "../../../common/api/Types";
 import APIConstants from "../../../common/api/APIConstants";
 
 export async function getLatestLedger(
-  requestItems: Array<RequestItem> //TODO handling requestitems
+  requestItems: RequestItem[] //TODO handling requestitems
 ): Promise<AxiosResponse<UpdateToLatestLedgerAPIResponse>> {
   try {
     return await axios.get<UpdateToLatestLedgerAPIResponse>(

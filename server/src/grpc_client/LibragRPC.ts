@@ -30,7 +30,7 @@ class LibraClient {
   }
 
   async GetLatestLedgerAsync(
-    requestItems: Array<RequestItem>
+    requestItems: RequestItem[]
   ): Promise<ClientUpdateLedgerResponse> {
     const request = this.GetLatestLedgerRequest(requestItems);
     const response: ClientUpdateLedgerResponse = {
@@ -47,7 +47,7 @@ class LibraClient {
   }
 
   GetLatestLedgerRequest(
-    requestItems: Array<RequestItem>
+    requestItems: RequestItem[]
   ): Promise<UpdateToLatestLedgerResponse> {
     const request = new UpdateToLatestLedgerRequest();
     request.setClientKnownVersion(

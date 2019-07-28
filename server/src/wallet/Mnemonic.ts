@@ -6,10 +6,10 @@ import WalletConstants from "../constants/WalletConstants";
 
 /// Mnemonic seed for deterministic key derivation
 class Mnemonic {
-  words: Array<string>;
+  words: string[];
 
   /// Generate mnemonic from strings
-  static fromWords(words: string | Array<string>): Mnemonic {
+  static fromWords(words: string | string[]): Mnemonic {
     const splitwords = Array.isArray(words)
       ? words
       : words.split(WalletConstants.mnemonicDelimiter);
@@ -60,7 +60,7 @@ class Mnemonic {
       }
       bufferBinary += bin;
     }
-    const binarySplits = new Array<string>();
+    const binarySplits: string[] = [];
     for (let i = 0; i < bufferBinary.length; i += 11) {
       let binaryString = "";
       for (let j = 0; j < 11; j++) {
@@ -69,7 +69,7 @@ class Mnemonic {
       binarySplits.push(binaryString);
     }
 
-    const words = new Array<string>();
+    const words: string[] = [];
     // Step 5 Map the binary numbers to array indices in the word list
     for (let i = 0; i < binarySplits.length; i++) {
       const index = parseInt(binarySplits[i], 2);
@@ -87,11 +87,11 @@ class Mnemonic {
     return mnemonic;
   }
 
-  private static countWords(words: Array<string>): boolean {
+  private static countWords(words: string[]): boolean {
     return words.length > 6 && words.length % 6 == 0;
   }
 
-  private static validateWords(words: Array<string>): Array<string> {
+  private static validateWords(words: string[]): string[] {
     const invalidWords = words.map((word: string, i: number) => {
       if (!EnglishWords[word]) {
         return word;

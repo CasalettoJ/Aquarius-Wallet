@@ -71,13 +71,13 @@ class AquariusWalletWrapper {
     return promise;
   }
 
-  generateAddresses(depth: BigNumber): Array<DerivedPublicAddress> {
+  generateAddresses(depth: BigNumber): DerivedPublicAddress[] {
     if (this.keyLeaf.isGreaterThan(depth)) {
       // TODO: Error handling
       return;
     }
 
-    const newAddresses: Array<DerivedPublicAddress> = new Array<
+    const newAddresses: DerivedPublicAddress[] = new Array<
       DerivedPublicAddress
     >();
     while (!this.keyLeaf.isEqualTo(depth)) {

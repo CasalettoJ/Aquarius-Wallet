@@ -13,8 +13,7 @@ export default {
       export: "/wallet/export"
     },
     account: {
-      get: "/account/:depth",
-      getAll: "/account",
+      getStates: "/account/",
       create: "/account/new",
       createX: "/account/new/:count"
     },

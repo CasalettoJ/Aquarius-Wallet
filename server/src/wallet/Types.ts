@@ -5,7 +5,7 @@ export type StructTag = {
   address: AccountAddress;
   module: string;
   name: string;
-  type_params: Array<StructTag>;
+  type_params: StructTag[];
 };
 
 export const CoinStructTag: StructTag = {

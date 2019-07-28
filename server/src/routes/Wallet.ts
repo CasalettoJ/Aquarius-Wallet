@@ -89,7 +89,7 @@ router.post(
   })
 );
 
-async function unsafeRecreateWallet(
+export async function unsafeRecreateWallet(
   mnemonic: string,
   salt: string
 ): Promise<AquariusWalletWrapper> {
