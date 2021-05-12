@@ -26,7 +26,7 @@
     "file-loader": "^4.0.0",
     "futoin-hkdf": "^1.0.3",
     "google-protobuf": "^3.9.0",
-    "grpc": "^1.22.2",
+    "grpc": "^1.24.9",
     "html-webpack-plugin": "^3.2.0",
     "normalize.css": "^8.0.1",
     "pbkdf2": "^3.0.17",
