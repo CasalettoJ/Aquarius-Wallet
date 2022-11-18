@@ -27,7 +27,7 @@
     "futoin-hkdf": "^1.0.3",
     "google-protobuf": "^3.9.0",
     "grpc": "^1.22.2",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^5.5.0",
     "normalize.css": "^8.0.1",
     "pbkdf2": "^3.0.17",
     "protobufjs": "^6.8.8",
@@ -72,7 +72,7 @@
     "typescript": "^3.5.3",
     "typescript-plugin-styled-components": "^1.4.3",
     "webpack": "^4.35.3",
-    "webpack-cli": "^3.3.5",
+    "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.7.2"
   }
 }
