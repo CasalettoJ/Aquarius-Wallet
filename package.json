@@ -21,7 +21,7 @@
     "cors": "^2.8.5",
     "css-loader": "^3.0.0",
     "elliptic": "^6.5.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-async-handler": "^1.1.4",
     "file-loader": "^4.0.0",
     "futoin-hkdf": "^1.0.3",
